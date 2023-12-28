@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export const POST = async (request: any) => {
   const { name, email, password } = await request.json();
 
-  await mongooseConnect();
+
 
   const existingUser = await User.findOne({ email });
 

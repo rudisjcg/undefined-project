@@ -1,12 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
 import { mongooseConnect } from "@/lib/mongoose";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { SessionStrategy } from "next-auth";
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   // Configure one or more authentication providers
   providers: [
     Credentials({
@@ -43,7 +42,7 @@ export const authOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/login",
   },
 };
 const handler = NextAuth({

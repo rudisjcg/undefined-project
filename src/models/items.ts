@@ -5,6 +5,7 @@ export interface Items {
   title: string;
   description: string;
   category: "producto" | "servicio" | "inmueble" | "vehiculo" | "otros";
+  images: string[];
 }
 
 const itemSchema: Schema<Items> = new Schema(
@@ -29,6 +30,10 @@ const itemSchema: Schema<Items> = new Schema(
       required: true,
       trim: true,
       maxlength: 350,
+    },
+    images: {
+      type: [String],
+      required: true,
     },
   },
   {

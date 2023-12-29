@@ -3,8 +3,11 @@ import Layout from "@/components/Layout";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { set } from "mongoose";
+import { Items } from "@/models/items";
+import ProductsBox from "./Products";
+import { RevealWrapper } from 'next-reveal';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -55,17 +58,22 @@ export default function ProductsPage() {
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [listItems, setItems] = useState([]);
+    const [images, setImages] = useState<string[]>([]);
 
     async function getItemsPerUser() {
+        // Add your code logic here
+        setLoading(true);
         const response = await fetch("/api/items");
         const data = await response.json();
-        console.log(data);
+        setItems(data?.items)
+        setLoading(false);
     }
+
 
     useEffect(() => {
         getItemsPerUser();
     }, [])
-
 
     const handleOpen = () => {
         setOpen(true);
@@ -79,10 +87,6 @@ export default function ProductsPage() {
         e.preventDefault();
         setLoading(true)
         const formData = new FormData(e.currentTarget);
-        console.log(formData.get("category"));
-        console.log(formData.get("title"));
-        console.log(formData.get("price"));
-        console.log(formData.get("description"));
 
         if (
             !formData.get("title") ||
@@ -91,7 +95,6 @@ export default function ProductsPage() {
         ) {
             return alert("Please fill in all fields");
         }
-
         const response = await fetch(`/api/createItem`, {
             method: "POST",
             body: JSON.stringify({
@@ -102,18 +105,49 @@ export default function ProductsPage() {
             }),
         });
 
+        if (response.ok) {
+            setLoading(false)
+            setOpen(false)
+        }
 
-
-        setLoading(false)
-        setOpen(false)
     }
+
+    async function uploadImages(ev: ChangeEvent<HTMLInputElement>) {
+        const files = ev.target?.files;
+        console.log(files, ev)
+
+        console.log(data)
+        if (files && files?.length > 0) {
+            setLoading(true);
+
+            const res = await fetch("/api/upload", {
+                method: 'POST',
+                body: data
+            });
+            const jsonData = await res.json();
+            // ...
+
+            setImages((oldImages: any) => [...oldImages, ...jsonData.links]);
+            setLoading(false);
+            console.log(jsonData);
+        }
+    }
+
 
     return (
         <>
             <Layout>
-                <h1>Products</h1>
-                <button onClick={handleOpen}>Create</button>
+                <div className="flex justify-around items-center">
 
+                    <h1>Products</h1>
+                    <button onClick={handleOpen}>Create</button>
+                </div>
+                <div>
+                    <RevealWrapper >
+
+                        <ProductsBox items={listItems} />
+                    </RevealWrapper>
+                </div>
             </Layout>
             <Modal
                 open={open}
@@ -122,7 +156,7 @@ export default function ProductsPage() {
                 aria-describedby="parent-modal-description"
             >
                 <Box sx={{ ...style, width: 700 }}>
-                    <form onSubmit={handleSubmit}>
+                    <form className="item_form" onSubmit={handleSubmit}>
                         <div className="flex flex-col gap-2">
                             <h1>What are you going to sell?</h1>
                             <select name="category" id="category">
@@ -145,13 +179,39 @@ export default function ProductsPage() {
                         <div className="flex flex-col gap-2">
 
                             <label htmlFor="description">Description</label>
-                            <textarea name="description" id="description" cols={30} rows={10}></textarea>
+                            <textarea name="description" id="description" ></textarea>
+                        </div>
+                        <div className="relative">
+                            <input onChange={uploadImages} className="absolute w-full h-full opacity-0 cursor-pointer" id="fileUpload" type="file" />
+                            <div className="flex items-center space-x-2 bg-white border border-gray-200 p-2 rounded">
+                                <ArrowUpRightIcon className="w-4 h-4" />
+                                <span>Upload File</span>
+                            </div>
                         </div>
                         <button type="submit">Create</button>
                     </form>
-                    <ChildModal />
                 </Box>
             </Modal>
         </>
+    )
+}
+
+function ArrowUpRightIcon(props: any) {
+    return (
+        <svg
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M7 7h10v10" />
+            <path d="M7 17 17 7" />
+        </svg>
     )
 }

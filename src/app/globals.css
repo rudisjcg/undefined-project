@@ -9,6 +9,14 @@
   @apply flex flex-col gap-4 items-start border-2 p-5 shadow-md rounded-md;
 }
 
+.item_form {
+  @apply flex flex-col gap-4 items-center w-full  p-5;
+}
+
 .btn_Form {
   @apply border-2 p-1 rounded-md bg-green-300 text-white font-bold shadow-sm;
+}
+
+.upload_btn {
+  @apply text-transparent bg-slate-600;
 }

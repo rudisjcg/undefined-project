@@ -1,10 +1,21 @@
-"use client";
+'use client'
+import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 
 export default function RegisterForm() {
+  const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+
+    if (
+      !formData.get("name") ||
+      !formData.get("email") ||
+      !formData.get("password")
+    ) {
+      return alert("Please fill in all fields");
+    }
+
     const response = await fetch(`/api/register`, {
       method: "POST",
       body: JSON.stringify({
@@ -13,6 +24,10 @@ export default function RegisterForm() {
         password: formData.get("password"),
       }),
     });
+
+    if (response.ok) {
+      router.push("/login");
+    }
 
     console.log({ response });
   };

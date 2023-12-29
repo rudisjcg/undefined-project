@@ -1,3 +1,4 @@
+'use client'
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { FormEvent } from "react";
@@ -13,7 +14,6 @@ export default function LoginForm() {
       redirect: false,
     });
 
-    console.log({ response });
     if (!response?.error) {
       router.push("/");
       router.refresh();

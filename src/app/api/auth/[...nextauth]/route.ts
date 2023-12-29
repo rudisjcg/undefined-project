@@ -4,46 +4,54 @@ import GithubProvider from "next-auth/providers/github"
 import { mongooseConnect } from "@/lib/mongoose"
 import User from "@/models/user"
 import bcrypt from "bcryptjs"
+import { SessionStrategy } from "next-auth"
 
 export const authOptions = {
     // Configure one or more authentication providers
     providers: [
-        GithubProvider({
-            clientId: process.env.GITHUB_ID || "",
-            clientSecret: process.env.GITHUB_SECRET || "",
+        Credentials({
+            credentials: {
+                email: {},
+                password: {},
+            },
+            async authorize(credentials, req) {
+                await mongooseConnect();
+
+                const { email, password } = credentials as { email: string, password: string };
+
+                const user = await User.findOne({ email });
+
+                if (!user) return null;
+
+                const passwordCorrect = await bcrypt.compare(password, user?.password);
+
+                console.log({ passwordCorrect });
+
+                if (passwordCorrect) {
+                    return {
+                        id: user.id,
+                        email: user.email,
+                    };
+                }
+
+                return null;
+            },
         }),
-        // Credentials({
-        //     name: "credentials",
-        //     credentials: {},
-
-
-        //     async authorize(credentials) {
-        //         const { email, password } = credentials as Record<string, string>;
-
-        //         try {
-        //             await mongooseConnect();
-        //             // Assuming you have a User model and a validateUser function
-        //             const user = await User.findOne({ email });
-        //             if (!user) return null;
-
-        //             const comparePassword = await bcrypt.compare (password, user.password)
-
-        //             if (!comparePassword) return null;
-
-        //             return user;
-
-        //         } catch (err){
-        //             // Handle error
-        //             console.log(err, "error")
-        //         }
-
-        //         // Return null if authentication fails
-        //         return null;
-        //     }
-        // })
     ],
+    session: {
+        strategy: "jwt",
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+    pages: {
+        signIn: "/auth/signin",
+    },
 }
-const handler = NextAuth(authOptions)
+const handler = NextAuth({
+    ...authOptions,
+    session: {
+        strategy: "jwt" as SessionStrategy,
+    },
+})
 
 
 export { handler as GET, handler as POST };

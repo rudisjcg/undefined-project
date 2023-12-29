@@ -1,32 +1,33 @@
+import { NextResponse } from 'next/server';
+import { hash } from 'bcryptjs';
+import User from '@/models/user';
 import { mongooseConnect } from "@/lib/mongoose"
-import User from "@/models/user"
-import bcrypt from "bcryptjs";
-import { NextResponse } from "next/server";
 
-export const POST = async (request: any) => {
+export async function POST(request: Request) {
+  await mongooseConnect();
   const { name, email, password } = await request.json();
-
-
-
-  const existingUser = await User.findOne({ email });
-
-  if (existingUser) {
-    return new NextResponse("Email is already in use", { status: 400 });
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 5);
-  const newUser = new User({
-    name,
-    email,
-    password: hashedPassword,
-  });
+  console.log({ name, email, password });
 
   try {
-    await newUser.save();
-    return new NextResponse("user is registered", { status: 200 });
-  } catch (err: any) {
-    return new NextResponse(err, {
-      status: 500,
-    });
+    // validate email and password
+    const emailExist = await User.findOne({ email });
+
+    if (emailExist) {
+      return NextResponse.json({ message: 'Email already exists' }, { status: 400 });
+    }
+
+    const hashedPassword = await hash(password, 10);
+
+
+    await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    })
+
+  } catch (e) {
+    return NextResponse.json({ message: 'Something went wrong', e });
   }
-};
+
+  return NextResponse.json({ message: 'User Created' });
+}

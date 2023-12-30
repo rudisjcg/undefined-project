@@ -8,6 +8,7 @@ import { set } from "mongoose";
 import { Items } from "@/models/items";
 import ProductsBox from "./Products";
 import { RevealWrapper } from 'next-reveal';
+import axios from "axios";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -59,7 +60,7 @@ export default function ProductsPage() {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [listItems, setItems] = useState([]);
-    const [images, setImages] = useState<string[]>([]);
+    const [images, setImages] = useState([{}]);
 
     async function getItemsPerUser() {
         // Add your code logic here
@@ -113,26 +114,36 @@ export default function ProductsPage() {
     }
 
     async function uploadImages(ev: ChangeEvent<HTMLInputElement>) {
-        const files = ev.target?.files;
-        console.log(files, ev)
+        const filesInput = ev?.target;
+        const files = filesInput?.files;
+        setLoading(true);
 
-        console.log(data)
         if (files && files?.length > 0) {
-            setLoading(true);
+            const data = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                // Añade un índice a la clave para cada archivo
+                data.append(`file${i}`, file);
+            }
 
-            const res = await fetch("/api/upload", {
-                method: 'POST',
-                body: data
-            });
-            const jsonData = await res.json();
-            // ...
+            // Imprime el contenido de FormData
+            for (let pair of data.entries() as any) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
 
-            setImages((oldImages: any) => [...oldImages, ...jsonData.links]);
-            setLoading(false);
-            console.log(jsonData);
+            try {
+                const response = await axios.post("/api/uploadimg", data);
+                setImages((oldImages) => {
+                    return [...oldImages, ...response.data.links];
+                });
+                console.log(response);
+            } catch (error) {
+                console.error("Error uploading files:", error);
+            } finally {
+                setLoading(false);
+            }
         }
     }
-
 
     return (
         <>
@@ -183,6 +194,7 @@ export default function ProductsPage() {
                         </div>
                         <div className="relative">
                             <input onChange={uploadImages} className="absolute w-full h-full opacity-0 cursor-pointer" id="fileUpload" type="file" />
+
                             <div className="flex items-center space-x-2 bg-white border border-gray-200 p-2 rounded">
                                 <ArrowUpRightIcon className="w-4 h-4" />
                                 <span>Upload File</span>

@@ -29,11 +29,9 @@ const itemSchema: Schema<Items> = new Schema(
       type: String,
       required: true,
       trim: true,
-      maxlength: 350,
     },
     images: {
       type: [String],
-      required: true,
     },
   },
   {

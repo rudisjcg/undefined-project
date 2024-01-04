@@ -30,10 +30,13 @@ export default function Nav() {
         <h1 className="text-lg font-medium">Dynamo</h1>
       </div>
       <nav className="space-y-2">
-        <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
+        <Link
+          href={"/"}
+          className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500"
+        >
           <AiOutlineHome />
           <span className="text-sm font-medium">Home</span>
-        </button>
+        </Link>
         <Link
           href={"/chats"}
           className="w-full flex items-center space-x-2 hover:bg-gray-200  active:bg-gray-300 py-2 px-2 rounded-lg text-gray-800"

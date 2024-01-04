@@ -13,19 +13,13 @@ export default function Nav() {
   const logout: () => void = () => {
     signOut();
   };
-  console.log(session);
   return (
     <aside className="sticky top-0 h-screen w-56 bg-gray-100 text-gray-800 p-4 flex flex-col justify-between">
       <div className="flex items-center mb-4 space-x-1">
         <img
-          alt="Company Logo"
-          height="30"
-          src="/placeholder.svg"
-          style={{
-            aspectRatio: "30/30",
-            objectFit: "cover",
-          }}
-          width="30"
+          className="w-8 h-8 rounded-full"
+          src="https://dynamoweb.s3.amazonaws.com/1704313256807.jpeg"
+          alt="logo"
         />
         <h1 className="text-lg font-medium">Dynamo</h1>
       </div>

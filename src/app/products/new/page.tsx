@@ -106,7 +106,9 @@ export default function NewProduct() {
           {images.length > 0 && (
             <>
               {images.map((link) => (
-                <img className="img_form" src={link} alt="image" />
+                <picture key={link}>
+                  <img className="img_form" src={link} alt="image" />
+                </picture>
               ))}
             </>
           )}

@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/api/auth/[...nextauth]",
-    "src/lib/mongoose.js"
+    "src/lib/mongoose.js",
+    "src/app/api/uploadimg/route.ts"
   ],
   "exclude": ["node_modules"]
 }

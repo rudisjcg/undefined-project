@@ -1,7 +1,9 @@
+import Layout from "@/components/Layout";
+
 export default function Home() {
   return (
-    <>
-      <div>You are not logged in! </div>
-    </>
+    <Layout>
+      <h1>Feed</h1>
+    </Layout>
   );
 }

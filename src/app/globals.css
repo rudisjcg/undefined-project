@@ -10,7 +10,7 @@
 }
 
 .item_form {
-  @apply w-full flex flex-col gap-4 items-center w-full  p-5;
+  @apply w-full flex flex-col gap-4 items-start w-full  p-5;
 }
 
 .btn_Form {
@@ -32,6 +32,7 @@
   flex-direction: column;
   gap: 1rem;
 }
+
 .main_input {
   height: 2rem;
   width: 15rem;

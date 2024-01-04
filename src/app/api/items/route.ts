@@ -3,7 +3,6 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { getServerSession } from "next-auth";
 import { GetServerSideProps } from "next";
 import Item from "@/models/items";
-import { authOptions } from "./../auth/[...nextauth]/route";
 
 export async function GET(session: any) {
   await mongooseConnect();
@@ -19,14 +18,12 @@ export async function GET(session: any) {
   }
 }
 
-export async function getServerSideProps(context: any) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context.req);
+
   return {
     props: {
-      session: await getServerSession(
-        context.req,
-        context.res,
-        authOptions
-      ),
+      session,
     },
-  }
-}
+  };
+};

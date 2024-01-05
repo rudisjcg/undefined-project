@@ -2,11 +2,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { NextResponse } from "next/server";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+
 
 export async function POST(req: Request) {
   await mongooseConnect();

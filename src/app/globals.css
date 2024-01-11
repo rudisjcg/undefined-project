@@ -21,6 +21,10 @@
   @apply text-transparent bg-slate-600;
 }
 
+.img_form {
+  @apply w-[250px] h-[250px] object-cover rounded-lg;
+}
+
 /* Plain CSS */
 
 .main_div {

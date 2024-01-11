@@ -5,7 +5,7 @@ import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { SessionStrategy } from "next-auth";
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
   // Configure one or more authentication providers
   providers: [
     Credentials({
@@ -52,4 +52,4 @@ const handler = NextAuth({
   },
 });
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST, authOptions };

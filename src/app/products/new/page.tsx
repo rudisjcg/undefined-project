@@ -25,6 +25,9 @@ export default function NewProduct() {
         const response = await fetch(`/api/items/create`, {
             method: "POST",
             body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
 
         console.log(response)
@@ -57,8 +60,6 @@ export default function NewProduct() {
             }
         }
     }
-    console.log(category)
-    console.log(images)
 
     return (
         <Layout>
@@ -89,7 +90,7 @@ export default function NewProduct() {
                     {images.length > 0 && (
                         <>
                             {images.map((link) => (
-                                <img src={link} alt="image" />
+                                <img className="w-[150px] h-[150px]" src={link} alt="image" />
 
                             ))}
                         </>

@@ -28,6 +28,14 @@ export default function Product(item: any) {
                 <h1>{item?.item?.title}</h1>
                 <h1>{item?.item?.price}</h1>
                 <h1>{item?.item?.description}</h1>
+                <div>
+                    {
+                        item?.item?.images?.map((image: any) => (
+                            <img className="w-[50px] h-[50px]" src={image} alt="image" />
+                        ))
+                    }
+                </div>
+
             </ProductT>
         </>
     )

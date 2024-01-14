@@ -6,6 +6,10 @@ export interface Items {
   description: string;
   category: "producto" | "servicio" | "inmueble" | "vehiculo" | "otros";
   images: string[];
+  listed: boolean;
+  likes?: string[];
+  comments?: string[];
+
 }
 
 const itemSchema: Schema<Items> = new Schema(
@@ -33,6 +37,18 @@ const itemSchema: Schema<Items> = new Schema(
     images: {
       type: [String],
     },
+    listed: {
+      type: Boolean,
+      default: true,
+    },
+    likes: {
+      type: [String],
+    },
+    comments: {
+      type: [String],
+    },
+
+
   },
   {
     timestamps: true,

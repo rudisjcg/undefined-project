@@ -11,12 +11,11 @@ const ProductsBoxWrapper = styled.div`
 `;
 
 export default function ProductsBox({ items }: { items: any }) {
-  console.log(items);
   return (
     <>
       <ProductsBoxWrapper>
         {items &&
-          items.map((item: any, index: any) => (
+          items?.map((item: any, index: any) => (
             <RevealWrapper delay={index * 100} key={item?._id}>
               <Product item={item} />
             </RevealWrapper>

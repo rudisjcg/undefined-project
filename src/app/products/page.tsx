@@ -26,7 +26,7 @@ export default function ProductsPage() {
       <Layout>
         <div className="flex justify-around items-center">
           <h1>Products</h1>
-          <Link href={"/products/new"}>Create</Link>
+          <Link href={"/create"}>Create</Link>
         </div>
         <div>
           <RevealWrapper>

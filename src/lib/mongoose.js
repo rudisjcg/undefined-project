@@ -10,6 +10,7 @@ export function mongooseConnect() {
       if (!uri) {
         throw new Error("MONGODB_URI is not defined");
       }
+      console.log("Connecting to MongoDB...")
       return mongoose?.connect(uri);
     } catch (error) {
       console.log(error);

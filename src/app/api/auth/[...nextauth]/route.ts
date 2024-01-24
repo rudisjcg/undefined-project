@@ -16,12 +16,15 @@ const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         await mongooseConnect();
 
+        console.log({ credentials })
+
         const { email, password } = credentials as {
           email: string;
           password: string;
         };
 
         const user = await User.findOne({ email });
+        console.log(user)
 
         if (!user) return null;
 

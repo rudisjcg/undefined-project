@@ -22,7 +22,7 @@
 }
 
 .img_form {
-  @apply w-[250px] h-[250px] object-cover rounded-lg;
+  @apply w-[150px] h-[150px] object-cover rounded-lg;
 }
 
 /* Plain CSS */

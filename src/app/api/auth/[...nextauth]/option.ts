@@ -1,8 +1,8 @@
-import { mongooseConnect } from "@/lib/mongoose";
-import User from "@/models/user";
 import { AuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { mongooseConnect } from "@/lib/mongoose";
+import User from "@/models/user";
 
 const authOptions: AuthOptions = {
     // Configure one or more authentication providers

@@ -1,53 +1,7 @@
-import NextAuth, { AuthOptions } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { mongooseConnect } from "@/lib/mongoose";
-import User from "@/models/user";
-import bcrypt from "bcryptjs";
+import NextAuth, { AuthOptions, NextAuthOptions } from "next-auth";
 import { SessionStrategy } from "next-auth";
+import authOptions from "./option";
 
-const authOptions: AuthOptions = {
-  // Configure one or more authentication providers
-  providers: [
-    Credentials({
-      credentials: {
-        email: {},
-        password: {},
-      },
-      async authorize(credentials, req) {
-        await mongooseConnect();
-
-        console.log({ credentials })
-
-        const { email, password } = credentials as {
-          email: string;
-          password: string;
-        };
-
-        const user = await User.findOne({ email });
-        console.log(user)
-
-        if (!user) return null;
-
-        const passwordCorrect = await bcrypt.compare(password, user?.password);
-
-        console.log({ passwordCorrect });
-
-        if (passwordCorrect) {
-          return user;
-        }
-
-        return null;
-      },
-    }),
-  ],
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/login",
-  },
-};
 const handler = NextAuth({
   ...authOptions,
   session: {
@@ -55,4 +9,4 @@ const handler = NextAuth({
   },
 });
 
-export { handler as GET, handler as POST, authOptions };
+export { handler as GET, handler as POST };

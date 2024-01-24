@@ -81,7 +81,6 @@ const CreateProduct = () => {
   console.log(images);
   return (
     <>
-      <h1>New Product</h1>
       <div className="w-full">
         <form className="item_form" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">

@@ -37,7 +37,7 @@ export default function Product(item: any) {
   const images = item?.item?.images;
 
   return (
-    <Link href={`/product/${item?.item?._id}`}>
+    <Link href={`/product/item/${item?.item?._id}`}>
       <ProductT>
         <div className="w-full text-center">
           <h1 className="mb-2">{item?.item?.title}</h1>

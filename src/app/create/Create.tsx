@@ -4,6 +4,14 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
 import { ReactSortable } from "react-sortablejs";
+import TextField from "@mui/material/TextField";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
 const CreateProduct = () => {
   const [open, setOpen] = useState(false);
@@ -12,14 +20,20 @@ const CreateProduct = () => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState([]);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const data = { title, price, description, category, images };
+    const data = {
+      title,
+      price,
+      description,
+      category,
+      images,
+    };
     console.log(data);
     const response = await fetch(`/api/items/create`, {
       method: "POST",
@@ -64,6 +78,7 @@ const CreateProduct = () => {
     setImages(images);
   }
 
+  console.log(images);
   return (
     <>
       <h1>New Product</h1>
@@ -71,69 +86,79 @@ const CreateProduct = () => {
         <form className="item_form" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <h1>What are you going to sell?</h1>
-            <select
-              onChange={(ev) => setCategory(ev.target.value)}
-              name="category"
-              id="category"
-            >
-              <option value="0">Select a category</option>
-              <option value="producto">Product</option>
-              <option value="servicio">Service</option>
-              <option value="inmueble">Property</option>
-            </select>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">type</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={category}
+                label="Age"
+                onChange={(ev) => setCategory(ev.target.value)}
+              >
+                <MenuItem value={"product"}>Product</MenuItem>
+                <MenuItem value={"service"}>Service</MenuItem>
+                <MenuItem value={"property"}>Property</MenuItem>
+              </Select>
+            </FormControl>
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="name">title</label>
-            <input
+            <TextField
               onChange={(ev) => setTitle(ev.target.value)}
-              type="text"
-              name="title"
-              id="title"
+              id="outlined-basic"
+              label="name"
+              variant="outlined"
             />
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="price">Price</label>
-            <input
+            <TextField
               onChange={(ev) => setPrice(ev.target.value)}
-              type="number"
-              name="price"
-              id="price"
+              id="outlined-basic"
+              label="price"
+              variant="outlined"
             />
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="description">Description</label>
-            <input
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Describe your product"
+              multiline
+              maxRows={4}
               onChange={(ev) => setDescription(ev.target.value)}
-              name="description"
-              id="description"
             />
           </div>
-          {loading && <BarLoader color="#36d7b7" />}
-          <ReactSortable list={images} setList={updateImagesOrder}>
-            {images.length > 0 && (
-              <div className="flex max-w-[1200px] overflow-x-scroll">
-                {images.map((link) => (
-                  <picture key={link}>
-                    <img className="img_form" src={link} alt="image" />
-                  </picture>
-                ))}
+          <div>
+            <ReactSortable list={images} setList={updateImagesOrder}>
+              {images.length > 0 && (
+                <div className="flex gap-4 flex-wrap">
+                  {images.map((link) => (
+                    <div key={link}>
+                      <img className="img_form" src={link} alt="image" />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ReactSortable>
+            {loading && <BarLoader color="#36d7b7" />}
+            <div className="relative">
+              <input
+                onChange={uploadImages}
+                ref={inputFileRef}
+                className="absolute w-full h-full opacity-0 cursor-pointer"
+                id="fileUpload"
+                type="file"
+              />
+              <div className="flex items-center w-[150px] space-x-2 bg-white border border-gray-200 p-2 mt-2 rounded">
+                <ArrowUpRightIcon className="w-4 h-4" />
+                <span>Upload File</span>
               </div>
-            )}
-          </ReactSortable>
-          <div className="relative">
-            <input
-              onChange={uploadImages}
-              ref={inputFileRef}
-              className="absolute w-full h-full opacity-0 cursor-pointer"
-              id="fileUpload"
-              type="file"
-            />
-            <div className="flex items-center space-x-2 bg-white border border-gray-200 p-2 rounded">
-              <ArrowUpRightIcon className="w-4 h-4" />
-              <span>Upload File</span>
             </div>
           </div>
-          <button type="submit">Create</button>
+          <Button variant="contained" type="submit">
+            Create
+          </Button>
         </form>
       </div>
     </>

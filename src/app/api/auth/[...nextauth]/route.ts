@@ -1,11 +1,11 @@
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth, { AuthOptions, NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { mongooseConnect } from "@/lib/mongoose";
 import User from "@/models/user";
 import bcrypt from "bcryptjs";
 import { SessionStrategy } from "next-auth";
 
-const authOptions: AuthOptions = {
+const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
     Credentials({

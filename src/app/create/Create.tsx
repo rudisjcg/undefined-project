@@ -20,7 +20,7 @@ const CreateProduct = () => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<string[]>([]);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -129,17 +129,15 @@ const CreateProduct = () => {
             />
           </div>
           <div>
-            <ReactSortable list={images} setList={updateImagesOrder}>
-              {images.length > 0 && (
-                <div className="flex gap-4 flex-wrap">
-                  {images.map((link) => (
-                    <div key={link}>
-                      <img className="img_form" src={link} alt="image" />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </ReactSortable>
+            {!!images.length && (
+              <div className="flex gap-4 flex-wrap">
+                {images.map((link) => (
+                  <div key={link}>
+                    <img className="img_form" src={link} alt="image" />
+                  </div>
+                ))}
+              </div>
+            )}
             {loading && <BarLoader color="#36d7b7" />}
             <div className="relative">
               <input

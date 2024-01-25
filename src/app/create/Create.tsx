@@ -91,7 +91,7 @@ const CreateProduct = () => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={category}
-                label="Age"
+                label="product"
                 onChange={(ev) => setCategory(ev.target.value)}
               >
                 <MenuItem value={"product"}>Product</MenuItem>

@@ -89,7 +89,7 @@ export default function LoginForm() {
               />
             </FormControl>
           </div>
-          <div className="flex gap-3 justify-center items-center">
+          <article className="flex gap-3 justify-center items-center">
             <LoadingButton
               color="primary"
               loading={loading}
@@ -101,11 +101,11 @@ export default function LoginForm() {
               <span>Login</span>
             </LoadingButton>
             {isError && (
-              <div className="border p-2 rounded-lg bg-red-500 text-white font-bold">
+              <article className="border p-2 rounded-lg bg-red-500 text-white font-bold">
                 <h2>Email or password is wrong</h2>
-              </div>
+              </article>
             )}
-          </div>
+          </article>
         </form>
       </div>
     </>

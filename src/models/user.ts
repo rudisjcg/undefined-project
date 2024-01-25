@@ -1,9 +1,12 @@
 import mongoose, { Schema, models } from "mongoose";
 
 export interface User {
+  firstName: string;
+  lastName: string;
   name: string;
   email: string;
   password: string;
+  phoneNumber: string;
   role: "user" | "admin";
   avatar: string;
   verified: boolean;
@@ -11,11 +14,19 @@ export interface User {
 
 const userSchema: Schema<User> = new Schema(
   {
-    name: {
+    firstName: {
       type: String,
       required: true,
       trim: true,
-      maxlength: 50,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    name: {
+      type: String,
+      trim: true,
     },
     email: {
       type: String,
@@ -28,6 +39,11 @@ const userSchema: Schema<User> = new Schema(
       type: String,
       required: true,
       trim: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+      default: "123456",
     },
     role: {
       type: String,

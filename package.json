@@ -28,6 +28,7 @@
     "mime-types": "^2.1.35",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
+    "mui-tel-input": "^5.0.0",
     "multiparty": "^4.2.3",
     "next": "14.0.4",
     "next-auth": "^4.24.5",

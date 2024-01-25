@@ -46,10 +46,13 @@ export default function Nav() {
             <AiOutlineInbox className="w-4 h-4" />
             <span className="text-sm font-medium">Products</span>
           </Link>
-          <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
+          <Link
+            href={"/account"}
+            className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500"
+          >
             <AiOutlineUser className="w-4 h-4" />
             <span className="text-sm font-medium">Account</span>
-          </button>
+          </Link>
         </nav>
         <div>
           {session ? (

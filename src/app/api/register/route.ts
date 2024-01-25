@@ -5,10 +5,17 @@ import { mongooseConnect } from "@/lib/mongoose";
 
 export async function POST(request: Request) {
   await mongooseConnect();
-  const { name, email, password } = await request.json();
-  console.log({ name, email, password });
+  const { firstName, lastName, email, gender, phone, password, verifyPassword } = await request.json();
+  console.log({ firstName, lastName, email, gender, phone, password, verifyPassword });
 
-  if (!name || !email || !password) {
+
+  if (!firstName ||
+    !lastName ||
+    !email ||
+    !password ||
+    !verifyPassword ||
+    !gender ||
+    !phone) {
     return NextResponse.json(
       { message: "Please fill all fields" },
       { status: 400 }
@@ -31,12 +38,16 @@ export async function POST(request: Request) {
 
     console.log("creating user");
     await User.create({
-      name,
-      email,
+      firstName: firstName,
+      lastName: lastName,
+      name: firstName + " " + lastName,
+      gender: gender,
+      email: email,
+      phone: phone.toString(),
       password: hashedPassword,
     });
     console.log("user created");
-    return NextResponse.json({ message: "User Created", User });
+    return NextResponse.json({ message: "User Created", status: 200 });
   } catch (e) {
     return NextResponse.json({ message: "Something went wrong", e });
   }

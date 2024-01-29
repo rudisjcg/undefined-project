@@ -4,20 +4,29 @@ import { useEffect, useState } from "react";
 import ProductsBox from "./Products";
 import { RevealWrapper } from "next-reveal";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
   const [listItems, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const session = useSession();
+  const router = useRouter();
 
-  async function getItemsPerUser() {
-    setLoading(true);
-    const response = await fetch("/api/items");
-    const data = await response.json();
-    setItems(data?.items);
-    setLoading(false);
-  }
+
 
   useEffect(() => {
+    if (session.data === null) {
+      router.push("/");
+      return;
+    }
+    async function getItemsPerUser() {
+      setLoading(true);
+      const response = await fetch("/api/items");
+      const data = await response.json();
+      setItems(data?.items);
+      setLoading(false);
+    }
     getItemsPerUser();
   }, []);
 

@@ -16,6 +16,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { MuiTelInput } from "mui-tel-input";
+import { signIn } from "next-auth/react";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -87,7 +88,19 @@ export default function RegisterForm() {
 
     if (response.ok) {
       setLoading(false);
-      router.push("/login");
+      const response = await signIn("credentials", {
+        email: email,
+        password: password,
+        redirect: false,
+      });
+
+      if (response?.error) {
+        setIsError(true);
+        setLoading(false);
+      } else {
+        router.push("/");
+        router.refresh();
+      }
     }
 
     console.log({ response });

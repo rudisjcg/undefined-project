@@ -13,13 +13,13 @@ export default function ProductsPage() {
   const session = useSession();
   const router = useRouter();
 
-  if (session.data === null) {
-    router.push("/");
-    return;
-  }
 
 
   useEffect(() => {
+    if (session.data === null) {
+      router.push("/");
+      return;
+    }
     async function getItemsPerUser() {
       setLoading(true);
       const response = await fetch("/api/items");

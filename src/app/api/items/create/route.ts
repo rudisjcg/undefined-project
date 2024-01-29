@@ -8,7 +8,6 @@ import authOptions from "../../auth/[...nextauth]/option";
 export async function POST(req: Request, res: NextApiResponse) {
   await mongooseConnect();
   const data = await getServerSession(authOptions);
-  console.log(data)
   const { title, description, price, category, images } = await req.json();
 
   try {

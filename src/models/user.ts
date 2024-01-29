@@ -7,7 +7,7 @@ export interface User {
   email: string;
   password: string;
   phoneNumber: string;
-  role: "user" | "admin";
+  role: "customer" | "vendor" | "admin";
   avatar: string;
   verified: boolean;
 }
@@ -47,8 +47,8 @@ const userSchema: Schema<User> = new Schema(
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
+      enum: ["customer", "vendor", "admin"],
+      default: "customer",
     },
     avatar: {
       type: String,

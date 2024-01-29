@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const ProductT = styled.div`
   display: flex;
@@ -35,9 +37,32 @@ const ImageWrapper = styled.div`
 
 export default function Product(item: any) {
   const images = item?.item?.images;
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const [modal, setModal] = useState(false);
+  console.log(pathname)
+
+  //href={`/product/item/${item?.item?._id}`}
+
+  const buttonLogic = () => {
+
+    if (pathname === '/products') {
+      router.push(`/product/item/${item?.item?._id}`)
+    } else {
+      openModal()
+    }
+
+    // router.push(`/product/item/${item?.item?._id}`)
+  }
+
+  function openModal() {
+    setModal(true)
+    console.log('open modal')
+  }
 
   return (
-    <Link href={`/product/item/${item?.item?._id}`}>
+    <button onClick={buttonLogic}>
       <ProductT>
         <div className="w-full text-center">
           <h1 className="mb-2">{item?.item?.title}</h1>
@@ -46,6 +71,6 @@ export default function Product(item: any) {
           <ImageProduct src={images[0]} alt="image" />
         </ImageWrapper>
       </ProductT>
-    </Link>
+    </button>
   );
 }

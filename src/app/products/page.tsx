@@ -4,10 +4,19 @@ import { useEffect, useState } from "react";
 import ProductsBox from "./Products";
 import { RevealWrapper } from "next-reveal";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function ProductsPage() {
   const [listItems, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const session = useSession();
+  const router = useRouter();
+
+  if (session.data === null) {
+    router.push("/");
+    return;
+  }
 
   async function getItemsPerUser() {
     setLoading(true);

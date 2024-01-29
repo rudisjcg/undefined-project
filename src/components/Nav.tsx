@@ -1,6 +1,7 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   AiFillMessage,
   AiOutlineHome,
@@ -10,8 +11,10 @@ import {
 
 export default function Nav() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const logout: () => void = () => {
     signOut();
+    router.push("/");
   };
   return (
     <>
@@ -32,27 +35,34 @@ export default function Nav() {
             <AiOutlineHome />
             <span className="text-sm font-medium">Home</span>
           </Link>
-          <Link
-            href={"/chats"}
-            className="w-full flex items-center space-x-2 hover:bg-gray-200  active:bg-gray-300 py-2 px-2 rounded-lg text-gray-800"
-          >
-            <AiFillMessage className="w-4 h-4" />
-            <span className="text-sm font-medium">Messages</span>
-          </Link>
-          <Link
-            href={"/products"}
-            className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500"
-          >
-            <AiOutlineInbox className="w-4 h-4" />
-            <span className="text-sm font-medium">Products</span>
-          </Link>
-          <Link
-            href={"/account"}
-            className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500"
-          >
-            <AiOutlineUser className="w-4 h-4" />
-            <span className="text-sm font-medium">Account</span>
-          </Link>
+          {
+            session && (
+              <>
+                <Link
+                  href={"/chats"}
+                  className="w-full flex items-center space-x-2 hover:bg-gray-200  active:bg-gray-300 py-2 px-2 rounded-lg text-gray-800"
+                >
+                  <AiFillMessage className="w-4 h-4" />
+                  <span className="text-sm font-medium">Messages</span>
+                </Link>
+                <Link
+                  href={"/products"}
+                  className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500"
+                >
+                  <AiOutlineInbox className="w-4 h-4" />
+                  <span className="text-sm font-medium">Products</span>
+                </Link>
+                <Link
+                  href={"/account"}
+                  className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500"
+                >
+                  <AiOutlineUser className="w-4 h-4" />
+                  <span className="text-sm font-medium">Account</span>
+                </Link>
+              </>
+            )
+          }
+
         </nav>
         <div>
           {session ? (

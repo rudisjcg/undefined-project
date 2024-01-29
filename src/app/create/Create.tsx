@@ -94,9 +94,9 @@ const CreateProduct = () => {
                 label="product"
                 onChange={(ev) => setCategory(ev.target.value)}
               >
-                <MenuItem value={"product"}>Product</MenuItem>
-                <MenuItem value={"service"}>Service</MenuItem>
-                <MenuItem value={"property"}>Property</MenuItem>
+                <MenuItem value={"producto"}>Product</MenuItem>
+                <MenuItem value={"servicio"}>Service</MenuItem>
+                <MenuItem value={"inmueble"}>Property</MenuItem>
               </Select>
             </FormControl>
           </div>

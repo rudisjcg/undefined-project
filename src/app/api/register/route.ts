@@ -2,20 +2,29 @@ import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import User from "@/models/user";
 import { mongooseConnect } from "@/lib/mongoose";
+import Customer from "@/models/customer";
 
 export async function POST(request: Request) {
   await mongooseConnect();
-  const { firstName, lastName, email, gender, phone, password, verifyPassword } = await request.json();
-  console.log({ firstName, lastName, email, gender, phone, password, verifyPassword });
+  const {
+    firstName,
+    lastName,
+    email,
+    gender,
+    phone,
+    password,
+    verifyPassword,
+  } = await request.json();
 
-
-  if (!firstName ||
+  if (
+    !firstName ||
     !lastName ||
     !email ||
     !password ||
     !verifyPassword ||
     !gender ||
-    !phone) {
+    !phone
+  ) {
     return NextResponse.json(
       { message: "Please fill all fields" },
       { status: 400 }
@@ -37,15 +46,25 @@ export async function POST(request: Request) {
     const hashedPassword = await hash(password, 10);
 
     console.log("creating user");
-    await User.create({
+    const user = await User.create({
       firstName: firstName,
       lastName: lastName,
       name: firstName + " " + lastName,
       gender: gender,
       email: email,
-      phone: phone.toString(),
+      phoneNumber: phone.toString(),
       password: hashedPassword,
     });
+
+    if (user) {
+      const findUser = await User.findOne({ email });
+      if (findUser) {
+        await Customer.create({
+          user: findUser._id,
+        });
+      }
+    }
+
     console.log("user created");
     return NextResponse.json({ message: "User Created", status: 200 });
   } catch (e) {

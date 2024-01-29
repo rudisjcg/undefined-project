@@ -18,15 +18,15 @@ export default function ProductsPage() {
     return;
   }
 
-  async function getItemsPerUser() {
-    setLoading(true);
-    const response = await fetch("/api/items");
-    const data = await response.json();
-    setItems(data?.items);
-    setLoading(false);
-  }
 
   useEffect(() => {
+    async function getItemsPerUser() {
+      setLoading(true);
+      const response = await fetch("/api/items");
+      const data = await response.json();
+      setItems(data?.items);
+      setLoading(false);
+    }
     getItemsPerUser();
   }, []);
 

@@ -3,6 +3,7 @@
 import { Input, SubmitButton } from "./components";
 import { createContext, useState } from "react";
 import styles from "./styles.module.scss";
+import Link from "next/link";
 
 type FormValues = Record<string, string>;
 
@@ -14,6 +15,7 @@ interface FormContextType {
 interface FormProps {
   title: string;
   description?: string;
+  linkTo?: string; 
   onSubmit: (values: FormValues) => void;
   children: React.ReactNode;
 }
@@ -22,7 +24,7 @@ export const FormContext = createContext<FormContextType | undefined>(
   undefined
 );
 
-export function Form({ title, children, onSubmit, description }: FormProps) {
+export function Form({ title, children, onSubmit, description, linkTo }: FormProps) {
   const [formValues, setFormValues] = useState<FormValues>({});
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -38,6 +40,18 @@ export function Form({ title, children, onSubmit, description }: FormProps) {
           {description && <p>{description}</p>}
         </div>
         {children}
+        <div className="w-full text-center">
+
+        <span>
+              You have an account?{" "}
+              <Link
+                className="text-blue-500 underline font-bold"
+                href={linkTo || ""}
+              >
+                click here
+              </Link>
+            </span>
+        </div>
       </form>
     </FormContext.Provider>
   );

@@ -5,6 +5,7 @@ export interface Customers {
   id: string;
   user: ObjectId;
   type: string;
+  comments: ObjectId[];
 }
 
 const CustomerSchema: Schema<Customers> = new Schema(

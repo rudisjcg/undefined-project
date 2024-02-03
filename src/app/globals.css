@@ -6,7 +6,7 @@
 }
 
 .login_form {
-  @apply flex flex-col gap-4 items-start border-2 p-5 shadow-md rounded-md;
+  @apply flex flex-col gap-4 items-start border-2 p-5 shadow-md rounded-md w-[500px] bg-white;
 }
 
 .item_form {
@@ -25,7 +25,19 @@
   @apply w-[150px] h-[150px] object-cover rounded-lg;
 }
 
+.button_login {
+  @apply w-full flex items-center justify-center border w-[250px] p-2 rounded-lg;
+}
+
 /* Plain CSS */
+
+.loginFormComponent {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),
+    url(../../public/hero.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 .main_div {
   height: 100vh;

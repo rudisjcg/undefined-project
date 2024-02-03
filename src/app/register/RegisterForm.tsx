@@ -17,6 +17,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { MuiTelInput } from "mui-tel-input";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -82,9 +83,7 @@ export default function RegisterForm() {
       },
     });
 
-    console.log(response);
 
-    // if (response.message === "Email already exists" ) {}
 
     if (response.ok) {
       setLoading(false);
@@ -103,7 +102,6 @@ export default function RegisterForm() {
       }
     }
 
-    console.log({ response });
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -115,7 +113,7 @@ export default function RegisterForm() {
 
   return (
     <>
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen loginFormComponent">
         <form onSubmit={handleSubmit} className="login_form">
           <div className="flex flex-col gap-2 w-full">
             <label>name</label>
@@ -236,6 +234,15 @@ export default function RegisterForm() {
             >
               <span>Register</span>
             </LoadingButton>
+            <span>
+              You have an account?{" "}
+              <Link
+                className="text-blue-500 underline font-bold"
+                href={"/login"}
+              >
+                click here
+              </Link>
+            </span>
             {isError && (
               <article className="border p-2 rounded-lg bg-red-500 text-white font-bold">
                 <span>{message}</span>

@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       }
     }
 
-    console.log("user created");
+    console.log("user and subUser created");
     return NextResponse.json({ message: "User Created", status: 200 });
   } catch (e) {
     return NextResponse.json({ message: "Something went wrong", e });

@@ -1,6 +1,7 @@
-import mongoose, { Schema, models } from "mongoose";
+import mongoose, { ObjectId, Schema, models } from "mongoose";
 
 export interface User {
+  _id?: ObjectId | string | undefined;
   firstName: string;
   lastName: string;
   name: string;

@@ -13,8 +13,6 @@ export default function ProductsPage() {
   const session = useSession();
   const router = useRouter();
 
-
-
   useEffect(() => {
     if (session.data === null) {
       router.push("/");

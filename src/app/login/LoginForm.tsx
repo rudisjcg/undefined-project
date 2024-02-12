@@ -18,6 +18,8 @@ import Link from "next/link";
 import { Form } from "@/components/Form";
 import { useLoading } from "@/hooks/useLoading";
 import { useAuthFetch } from "@/hooks/useAuthFetch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -154,9 +156,6 @@ export default function LoginForm() {
           onSubmit={register}
           description="Create your account"
         >
-          <p className="promo">Promo code?</p>
-          <p className="promo1">Promo code?</p>
-          <p className="promo2">Promo code?</p>
           <div className="my-[10px] flex flex-col gap-4 w-full">
             <Form.Input
               label="Correo"

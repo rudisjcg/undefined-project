@@ -75,7 +75,7 @@ export default function RegisterForm() {
       return;
     }
 
-    const response = await fetch(`/api/register`, {
+    const response = await fetch(`/api/auth/register`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

@@ -30,8 +30,13 @@ export function useAuthFetch() {
           redirect: false,
         });
 
+        if (response?.error) {
+        } else {
+          router.push("/");
+          router.refresh();
+        }
+
         if (redirectRoute) router.push(redirectRoute);
-        console.log(response);
         return;
       }
 

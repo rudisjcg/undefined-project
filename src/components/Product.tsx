@@ -43,9 +43,9 @@ export default function Product(item: any) {
 
   const buttonLogic = () => {
     if (pathname === "/products") {
-      openModal();
-    } else {
       router.push(`/products/item/${item?.item?._id}`);
+    } else {
+      openModal();
     }
   };
 

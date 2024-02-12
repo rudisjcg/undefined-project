@@ -7,9 +7,8 @@ export async function GET() {
 
   try {
     const items = await Item.find({});
-    console.log(items);
     return NextResponse.json({ items });
   } catch (error) {
-    console.log(error);
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

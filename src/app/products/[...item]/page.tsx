@@ -1,31 +1,44 @@
 "use client";
 
 import Layout from "@/components/Layout";
+import { ItemData } from "@/interfaces";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function ItemPage() {
   const router = useRouter();
   const pathname = usePathname();
   const id = pathname.replace("/products/item/", "");
+  const [itemId, setItemId] = useState(id);
+  const [itemData, setItemData] = useState<ItemData | null>(null);
 
   useEffect(() => {
     if (id === "") {
-      router.push("/products");
+      return;
     }
 
     async function getActualItem() {
-      // const response = await axios.get(`/api/items/${id}`);
+      const response = await axios.post(`/api/items/getItem`, {
+        itemId: itemId,
+      });
+      if (response.statusText !== "OK") {
+        console.error(response.statusText);
+        return;
+      } else {
+        setItemData(response.data);
+      }
     }
 
     getActualItem();
-  }, [id]);
+  }, []);
 
   return (
     <>
       <Layout>
-        <h1>Item</h1>
+        <span>
+          {itemData?.item?.category} - {itemData?.item?.title}
+        </span>
         {id}
       </Layout>
     </>

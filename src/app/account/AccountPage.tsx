@@ -13,8 +13,6 @@ const AccountDetails = () => {
     getUserData();
   }, []);
 
-  console.log(userData);
-
   return (
     <article>
       <h2>Account Details</h2>

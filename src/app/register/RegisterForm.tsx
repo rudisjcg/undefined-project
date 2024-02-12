@@ -83,9 +83,7 @@ export default function RegisterForm() {
       },
     });
 
-    console.log(response);
 
-    // if (response.message === "Email already exists" ) {}
 
     if (response.ok) {
       setLoading(false);
@@ -104,7 +102,6 @@ export default function RegisterForm() {
       }
     }
 
-    console.log({ response });
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);

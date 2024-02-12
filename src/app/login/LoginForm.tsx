@@ -42,25 +42,6 @@ export default function LoginForm() {
     finishLoading();
   };
 
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   const response = await signIn("credentials", {
-  //     email: email,
-  //     password: password,
-  //     redirect: false,
-  //   });
-
-  //   if (response?.error) {
-  //     setIsError(true);
-  //     setLoading(false);
-  //   } else {
-  //     router.push("/");
-  //     router.refresh();
-  //   }
-  // };
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -71,90 +52,11 @@ export default function LoginForm() {
   return (
     <>
       <div className="flex justify-center items-center h-screen loginFormComponent">
-        {/* <form onSubmit={handleSubmit} className="login_form">
-          <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="email">Email</label>
-            <TextField
-              onChange={(ev) => setEmail(ev.target.value)}
-              id="outlined-basic"
-              label="email"
-              variant="outlined"
-              placeholder="example@..."
-            />
-          </div>
-          <div className="flex flex-col gap-2 w-full">
-            <label htmlFor="password">Password</label>
-            <FormControl variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">
-                Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                onChange={(ev) => setPassword(ev.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-              />
-            </FormControl>
-          </div>
-          <article className="flex flex-col gap-3 justify-center items-center w-full">
-            <LoadingButton
-              loading={loading}
-              loadingPosition="start"
-              startIcon={<SaveIcon />}
-              variant="contained"
-              type="submit"
-              className=" text-white w-full"
-            >
-              <span>Login</span>
-            </LoadingButton>
-            <span>
-              You haven't created an account?{" "}
-              <Link
-                className="text-blue-500 underline font-bold"
-                href={"/register"}
-              >
-                click here
-              </Link>
-            </span>
-            {isError && (
-              <article className="border p-2 rounded-lg bg-red-500 text-white font-bold">
-                <h2>Email or password is wrong</h2>
-              </article>
-            )}
-          </article>
-          <div className="w-full border-gray-400 border" />
-          <div className="w-full flex flex-col gap-2 items-center">
-            <button className="button_login">
-              <FacebookIcon className="h-5 w-5 mr-2" />
-              Sign in with Facebook
-            </button>
-            <button className="button_login">
-              <ComputerIcon className="h-5 w-5 mr-2" />
-              Sign in with Microsoft
-            </button>
-            <button className="button_login">
-              <ChromeIcon className="h-5 w-5 mr-2" />
-              Sign in with Google
-            </button>
-          </div>
-        </form> */}
-
-        <Form
+     <Form
           title="Login"
           onSubmit={register}
-          description="Create your account"
+          description="Access to your account"
+          linkTo="/register"
         >
           <div className="my-[10px] flex flex-col gap-4 w-full">
             <Form.Input
@@ -168,14 +70,8 @@ export default function LoginForm() {
               name="password"
               type="password"
             />
-            <Form.Input
-              placeholder="Repite tu contraseña..."
-              label="Contraseña"
-              name="confirmPassword"
-              type="password"
-            />
           </div>
-          <Form.SubmitButton buttonText="Crear cuenta" isLoading={isLoading} />
+          <Form.SubmitButton buttonText="Login" isLoading={isLoading} />
         </Form>
       </div>
     </>

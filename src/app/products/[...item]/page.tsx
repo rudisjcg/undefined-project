@@ -16,8 +16,7 @@ export default function ItemPage() {
     }
 
     async function getActualItem() {
-      const response = await axios.get(`/api/items/${id}`);
-      console.log(response);
+      // const response = await axios.get(`/api/items/${id}`);
     }
 
     getActualItem();

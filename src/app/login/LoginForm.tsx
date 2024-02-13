@@ -18,6 +18,8 @@ import Link from "next/link";
 import { Form } from "@/components/Form";
 import { useLoading } from "@/hooks/useLoading";
 import { useAuthFetch } from "@/hooks/useAuthFetch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginForm() {
   const router = useRouter();

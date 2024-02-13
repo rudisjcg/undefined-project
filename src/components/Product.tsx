@@ -39,26 +39,19 @@ export default function Product(item: any) {
   const images = item?.item?.images;
   const pathname = usePathname();
   const router = useRouter();
-
   const [modal, setModal] = useState(false);
-  console.log(pathname)
-
-  //href={`/product/item/${item?.item?._id}`}
 
   const buttonLogic = () => {
-
-    if (pathname === '/products') {
-      router.push(`/product/item/${item?.item?._id}`)
+    if (pathname === "/products") {
+      router.push(`/products/item/${item?.item?._id}`);
     } else {
-      openModal()
+      openModal();
     }
-
-    // router.push(`/product/item/${item?.item?._id}`)
-  }
+  };
 
   function openModal() {
-    setModal(true)
-    console.log('open modal')
+    setModal(true);
+    console.log("open modal");
   }
 
   return (

@@ -9,6 +9,8 @@ export interface Items {
   listed: boolean;
   likes?: string[];
   comments?: string[];
+  price?: number;
+  rating?: number;
 
 }
 
@@ -46,6 +48,14 @@ const itemSchema: Schema<Items> = new Schema(
     },
     comments: {
       type: [String],
+    },
+    price: {
+      type: Number,
+      default: 0,
+    },
+    rating: {
+      type: Number,
+      default: 5,
     },
 
 

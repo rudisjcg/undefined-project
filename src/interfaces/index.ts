@@ -7,6 +7,6 @@ export interface ItemData {
         category: string;
         description: string;
         price: number;
-        image: string;
+        images: string[];
     };
 }

@@ -63,15 +63,28 @@ export default function ItemPage() {
     }
   }
 
+  async function submitComment(ev: any) {
+    ev.preventDefault();
+    const data = {
+      rating,
+      comment,
+      images,
+      itemId,
+    };
+    const response = await axios.post(`/api/items/comment/create`, data);
+    console.log(response);
+    setLoading(false);
+  }
+
   return (
     <>
       <Layout>
-        <div>
-          <div>
-            <span>
+        <div className="flex flex-col gap-10">
+          <div className="flex justify-between border-b-2">
+            <label>
               {itemData?.item?.category} - {itemData?.item?.title}
-            </span>
-            <span>{itemData?.item?.price}</span>
+            </label>
+            <label>$24.99</label>
           </div>
           <div>
             {itemData?.item?.images.map((image, index) => {
@@ -86,7 +99,7 @@ export default function ItemPage() {
             })}
           </div>
 
-          <form>
+          <form onSubmit={submitComment}>
             <Rating
               name="simple-controlled"
               value={rating}
@@ -125,6 +138,7 @@ export default function ItemPage() {
               rows={4}
               onChange={(e) => setComment(e.target.value)}
             />
+            <button type="submit">Submit</button>
           </form>
         </div>
       </Layout>

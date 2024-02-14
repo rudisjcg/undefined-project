@@ -54,7 +54,6 @@ export default function ItemPage() {
         setImages((oldImages) => {
           return [...oldImages, ...response.data.links];
         });
-        console.log(response.data);
       } catch (error) {
         console.error("Error uploading files:", error);
       } finally {
@@ -72,7 +71,6 @@ export default function ItemPage() {
       itemId,
     };
     const response = await axios.post(`/api/items/comment/create`, data);
-    console.log(response);
     setLoading(false);
   }
 

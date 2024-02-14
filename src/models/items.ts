@@ -47,7 +47,7 @@ const itemSchema: Schema<Items> = new Schema(
       type: [String],
     },
     comments: {
-      type: [String],
+      type: mongoose.Schema.Types.ObjectId, ref: "Comment",
     },
     price: {
       type: Number,

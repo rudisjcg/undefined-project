@@ -29,7 +29,28 @@
   @apply w-full flex items-center justify-center border w-[250px] p-2 rounded-lg;
 }
 
+.NavLinks {
+  @apply w-full flex items-center space-x-2 hover:bg-gray-200  active:bg-gray-300 py-2 px-2 rounded-lg text-gray-800;
+}
+
 /* Plain CSS */
+
+.buttonBassic {
+  background-color: #3b82f6;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition-property: background-color, border-color, color, fill, stroke,
+    opacity, box-shadow, transform;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0.5rem;
+}
+
+.buttonBassic:hover {
+  background-color: #1e40af;
+}
 
 .loginFormComponent {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)),

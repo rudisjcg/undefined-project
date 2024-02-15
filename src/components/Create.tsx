@@ -13,7 +13,7 @@ import {
   Select,
 } from "@mui/material";
 
-const CreateProduct = () => {
+const CreateProduct = ({ ...existingData }: any) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -23,6 +23,8 @@ const CreateProduct = () => {
   const [images, setImages] = useState<string[]>([]);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  console.log(existingData);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,7 +80,6 @@ const CreateProduct = () => {
     setImages(images);
   }
 
-  console.log(images);
   return (
     <>
       <div className="w-full">

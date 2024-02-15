@@ -11,7 +11,7 @@ export interface IComment {
 
 const CommentsSchema: Schema<IComment> = new Schema(
     {
-        id: { type: String, default: "commt_" + makeId(20), required: true },
+        id: { type: String, default: "commt_" + makeId(10), required: true },
         comment: { type: String, required: true },
         rating: { type: Number, default: 0, required: true },
         images: { type: [String], default: [] },

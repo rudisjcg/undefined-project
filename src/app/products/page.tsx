@@ -1,15 +1,16 @@
 "use client";
-import Layout from "@/components/Layout";
 import { useEffect, useState } from "react";
 import ProductsBox from "./Products";
 import { RevealWrapper } from "next-reveal";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useLoading } from "@/hooks/useLoading";
+import CreateProduct from "@/components/Create";
 
 export default function ProductsPage() {
   const [listItems, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { isLoading, startLoading, finishLoading } = useLoading();
+  const [createItem, setCreateItem] = useState(false);
   const session = useSession();
   const router = useRouter();
 
@@ -19,28 +20,34 @@ export default function ProductsPage() {
       return;
     }
     async function getItemsPerUser() {
-      setLoading(true);
+      startLoading();
       const response = await fetch("/api/items");
       const data = await response.json();
       setItems(data?.items);
-      setLoading(false);
+      finishLoading();
     }
     getItemsPerUser();
   }, []);
 
   return (
     <>
-      <Layout>
+      <>
         <div className="flex justify-around items-center">
           <h1>Products</h1>
-          <Link href={"/create"}>Create</Link>
+          <button onClick={() => setCreateItem(!createItem)}>
+            {createItem ? "Cancel" : "Create"}
+          </button>
         </div>
         <div>
           <RevealWrapper>
-            <ProductsBox items={listItems} />
+            {createItem ? (
+              <CreateProduct />
+            ) : (
+              <ProductsBox items={listItems} loading={isLoading} />
+            )}
           </RevealWrapper>
         </div>
-      </Layout>
+      </>
     </>
   );
 }

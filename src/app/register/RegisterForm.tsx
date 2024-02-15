@@ -83,8 +83,6 @@ export default function RegisterForm() {
       },
     });
 
-
-
     if (response.ok) {
       setLoading(false);
       const response = await signIn("credentials", {
@@ -101,7 +99,6 @@ export default function RegisterForm() {
         router.refresh();
       }
     }
-
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);

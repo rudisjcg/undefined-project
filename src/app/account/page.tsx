@@ -1,5 +1,4 @@
-'use client'
-import Layout from "@/components/Layout";
+"use client";
 import AccountDetails from "./AccountPage";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -14,8 +13,8 @@ export default function AccountPage() {
   }
 
   return (
-    <Layout>
+    <>
       <AccountDetails />
-    </Layout>
+    </>
   );
 }

@@ -10,3 +10,20 @@ export interface ItemData {
         images: string[];
     };
 }
+
+export interface Query {
+    $or?: Array<object>;
+}
+
+interface Item {
+    images?: Array<any>;
+    listed: boolean;
+    likes: Array<any>;
+    price: number;
+    rating: number;
+    _id: string;
+    email?: string;
+    title?: string;
+}
+
+export type ItemsArray = Item[];

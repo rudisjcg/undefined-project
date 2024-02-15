@@ -2,7 +2,7 @@
 import { io } from "socket.io-client";
 import { useState } from "react";
 import ChatPage from "@/components/ChatPage";
-import Layout from "@/components/Layout";
+import React from "react";
 
 export default function Home() {
   const [showChat, setShowChat] = useState(false);
@@ -29,7 +29,7 @@ export default function Home() {
   };
 
   return (
-    <Layout>
+    <>
       <div className="main_div" style={{ display: showChat ? "none" : "" }}>
         <input
           className={"main_input"}
@@ -52,6 +52,6 @@ export default function Home() {
       <div style={{ display: !showChat ? "none" : "" }}>
         <ChatPage socket={socket} roomId={roomId} username={userName} />
       </div>
-    </Layout>
+    </>
   );
 }

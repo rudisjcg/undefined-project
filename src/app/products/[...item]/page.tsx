@@ -76,7 +76,7 @@ export default function ItemPage() {
 
   return (
     <>
-      <Layout>
+      <>
         <div className="flex flex-col gap-10">
           <div className="flex justify-between border-b-2">
             <label>
@@ -139,7 +139,7 @@ export default function ItemPage() {
             <button type="submit">Submit</button>
           </form>
         </div>
-      </Layout>
+      </>
     </>
   );
 }

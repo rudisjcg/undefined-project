@@ -1,8 +1,12 @@
 import styled from "styled-components";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import BasicButton from "./UI/ButtonBasic";
 import Link from "next/link";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { modalStyle } from "@/utils";
+import axios from "axios";
+import NotificationContext from "@/context/NotificationContext";
 
 const ProductT = styled.div`
   display: flex;
@@ -49,23 +53,58 @@ export default function Product(item: any) {
       openModal();
     }
   };
+  const { showNotification } = useContext(NotificationContext);
+  const [open, setOpen] = useState(false);
+  const [idTobeDeleted, setIdTobeDeleted] = useState("");
+  const [titleTobeDeleted, setTitleTobeDeleted] = useState("");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   function openModal() {
     console.log("open modal");
   }
 
-  const editItem = () => {
-    router.push(`/products/edit/${item?.item?._id}`);
-  };
+  function deleteItem(id: string, name: string) {
+    console.log(id, name);
+    setIdTobeDeleted(id);
+    setTitleTobeDeleted(name);
+    handleOpen();
+  }
 
-  function deleteItem() {}
+  async function deleteActualItem() {
+    console.log("deleting item");
+    await axios.delete(`/api/items/delete/?id=${idTobeDeleted}`).then((res) => {
+      console.log(res);
+      handleClose();
+
+      if (res.data.status === "ok") {
+        showNotification({
+          msj: "Item deleted successfully",
+          open: true,
+          status: "success",
+        });
+
+        setTimeout(() => {
+          {
+          }
+          router.refresh();
+        }, 1000);
+      } else {
+        showNotification({
+          msj: "Error deleting item",
+          open: true,
+          status: "error",
+        });
+      }
+    });
+  }
 
   return (
     <>
       {pathname === "/products" ? (
         <ProductT>
           <div className="w-full text-center">
-            <h1 className="mb-2">{item?.item?.title}</h1>
+            <span className="mb-2">{item?.item?.title}</span>
           </div>
           <ImageWrapper>
             <ImageProduct src={images[0]} alt="image" />
@@ -77,7 +116,10 @@ export default function Product(item: any) {
             >
               Edit
             </Link>
-            <button onClick={deleteItem} className="buttonBassic">
+            <button
+              onClick={() => deleteItem(item?.item?._id, item?.item?.title)}
+              className="buttonBassic"
+            >
               Delete
             </button>
           </article>
@@ -94,6 +136,26 @@ export default function Product(item: any) {
           </ProductT>
         </button>
       )}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <article className="flex flex-col items-center justify-center">
+            <span className="text-lg">
+              are you sure you want to delete this item? {item?.item?.title}
+            </span>
+            <article>
+              <Button color="error" onClick={deleteActualItem}>
+                Delete
+              </Button>
+              <Button>Cancel</Button>
+            </article>
+          </article>
+        </Box>
+      </Modal>
     </>
   );
 }

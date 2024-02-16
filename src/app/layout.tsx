@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import authOptions from "./api/auth/[...nextauth]/option";
 import Layout from "@/components/Layout";
 import SessionAccProvider from "@/context/client-provider";
+import { NotificationProvider } from "@/context/NotificationContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +23,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionAccProvider session={session}>
-        <body className={inter.className}>
-          <Layout>{children}</Layout>
-        </body>
+        <NotificationProvider>
+          <body className={inter.className}>
+            <Layout>{children}</Layout>
+          </body>
+        </NotificationProvider>
       </SessionAccProvider>
     </html>
   );

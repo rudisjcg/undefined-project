@@ -1,9 +1,8 @@
-import react from "react";
+import react, { useEffect } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
-import { ReactSortable } from "react-sortablejs";
 import TextField from "@mui/material/TextField";
 import {
   Button,
@@ -12,19 +11,44 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
+import { EditProductsProps } from "@/interfaces";
 
-const CreateProduct = ({ ...existingData }: any) => {
+const CreateProduct = ({
+  title: existingTitle,
+  price: existingPrice,
+  description: existingDescription,
+  category: existingCategory,
+  images: existingImages,
+  ...existingData
+}: EditProductsProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [images, setImages] = useState<string[]>([]);
+  const [price, setPrice] = useState(existingPrice || "");
+  const [description, setDescription] = useState(existingDescription || "");
+  const [category, setCategory] = useState(existingCategory || "");
+  const [images, setImages] = useState<string[]>(existingImages || []);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const id = pathname?.split("/").pop();
+  console.log(id);
 
-  console.log(existingData);
+  useEffect(() => {
+    if (id && existingData) {
+      setTitle(existingTitle);
+      setPrice(existingPrice);
+      setDescription(existingDescription);
+      setCategory(existingCategory);
+      setImages(existingImages);
+    }
+  }, [
+    existingTitle,
+    existingPrice,
+    existingDescription,
+    existingCategory,
+    existingImages,
+  ]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,20 +60,31 @@ const CreateProduct = ({ ...existingData }: any) => {
       category,
       images,
     };
+
     console.log(data);
-    const response = await fetch(`/api/items/create`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
 
-    console.log(response);
-
-    if (response.ok) {
-      setLoading(false);
-      router.push("/products");
+    if (id && existingData) {
+      const response = await axios.put(`/api/items/update`, { ...data, id });
+      if (response.data.status === "ok") {
+        setLoading(false);
+        router.push("/products");
+      } else {
+        setLoading(false);
+        console.error("Error updating item");
+      }
+    } else {
+      const response = await fetch(`/api/items/create`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+      if (response.ok) {
+        setLoading(false);
+        router.push("/products");
+      }
     }
   };
 
@@ -104,6 +139,7 @@ const CreateProduct = ({ ...existingData }: any) => {
           <div className="flex flex-col gap-2">
             <label htmlFor="name">title</label>
             <TextField
+              value={title}
               onChange={(ev) => setTitle(ev.target.value)}
               id="outlined-basic"
               label="name"
@@ -117,6 +153,7 @@ const CreateProduct = ({ ...existingData }: any) => {
               id="outlined-basic"
               label="price"
               variant="outlined"
+              value={price}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -125,12 +162,13 @@ const CreateProduct = ({ ...existingData }: any) => {
               id="outlined-multiline-flexible"
               label="Describe your product"
               multiline
-              maxRows={4}
+              value={description}
+              rows={5}
               onChange={(ev) => setDescription(ev.target.value)}
             />
           </div>
           <div>
-            {!!images.length && (
+            {images && !!images?.length && (
               <div className="flex gap-4 flex-wrap">
                 {images.map((link) => (
                   <div key={link}>
@@ -155,7 +193,7 @@ const CreateProduct = ({ ...existingData }: any) => {
             </div>
           </div>
           <Button variant="contained" type="submit">
-            Create
+            {id && existingData ? "Update" : "Create"}
           </Button>
         </form>
       </div>

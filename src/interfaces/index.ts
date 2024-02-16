@@ -46,6 +46,16 @@ interface Item {
     title?: string;
 }
 
+export interface EditProductsProps {
+    title?: string;
+    price?: number;
+    description?: string;
+    category?: string;
+    images?: string[]; // Assuming images is an array of strings
+    _id?: string;
+    [key: string]: any; // For the rest of the properties (existingData)
+}
+
 export type ItemsArray = Item[];
 
 export type ItemsProductArray = ItemsProduct[];

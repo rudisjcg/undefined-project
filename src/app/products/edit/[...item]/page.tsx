@@ -1,6 +1,7 @@
 "use client";
 import CreateProduct from "@/components/Create";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -8,9 +9,10 @@ export default function EditProductPage() {
   const [productInfo, setProductInfo] = useState({});
   const pathname = usePathname();
   const id = pathname.replace("/products/edit/", "");
+  const { data: session } = useSession();
 
   useEffect(() => {
-    if (!id) {
+    if (!id && !session) {
       return;
     }
 
@@ -20,7 +22,6 @@ export default function EditProductPage() {
       })
       .then((res: any) => {
         setProductInfo(res?.data?.item);
-        console.log(res?.data?.item);
       });
   }, [id]);
 

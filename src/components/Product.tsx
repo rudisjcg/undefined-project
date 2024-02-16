@@ -1,8 +1,12 @@
 import styled from "styled-components";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import BasicButton from "./UI/ButtonBasic";
 import Link from "next/link";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { modalStyle } from "@/utils";
+import axios from "axios";
+import NotificationContext from "@/context/NotificationContext";
 
 const ProductT = styled.div`
   display: flex;
@@ -11,11 +15,15 @@ const ProductT = styled.div`
   align-items: center;
   background-color: #fff;
   border-radius: 10px;
+  border: 1px solid #e5e5e5;
   width: 250px;
   max-height: 250px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease-in-out;
   overflow: hidden;
+  &:hover {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 0 2px black);
+  }
 `;
 
 const ImageProduct = styled.img`
@@ -25,10 +33,6 @@ const ImageProduct = styled.img`
   border-end-start-radius: 10px;
   border-end-end-radius: 10px;
   overflow: hidden;
-  &:hover {
-    transform: scale(1.1);
-    transition: all 0.2s ease;
-  }
 `;
 
 const ImageWrapper = styled.div`
@@ -40,32 +44,46 @@ const ImageWrapper = styled.div`
 
 export default function Product(item: any) {
   const images = item?.item?.images;
+  const _id = item?.item?._id;
   const pathname = usePathname();
   const router = useRouter();
-  const buttonLogic = () => {
-    if (pathname === "/products") {
-      router.push(`/products/item/${item?.item?._id}`);
-    } else {
-      openModal();
-    }
-  };
+  const { showNotification } = useContext(NotificationContext);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  function openModal() {
-    console.log("open modal");
+  async function deleteActualItem() {
+    await axios.delete(`/api/items/delete/?id=${_id}`).then((res) => {
+      handleClose();
+
+      if (res.data.status === "ok") {
+        showNotification({
+          msj: "Item deleted successfully",
+          open: true,
+          status: "success",
+        });
+
+        setTimeout(() => {
+          {
+          }
+          router.refresh();
+        }, 1000);
+      } else {
+        showNotification({
+          msj: "Error deleting item",
+          open: true,
+          status: "error",
+        });
+      }
+    });
   }
-
-  const editItem = () => {
-    router.push(`/products/edit/${item?.item?._id}`);
-  };
-
-  function deleteItem() {}
 
   return (
     <>
       {pathname === "/products" ? (
         <ProductT>
           <div className="w-full text-center">
-            <h1 className="mb-2">{item?.item?.title}</h1>
+            <span className="mb-2">{item?.item?.title}</span>
           </div>
           <ImageWrapper>
             <ImageProduct src={images[0]} alt="image" />
@@ -77,13 +95,13 @@ export default function Product(item: any) {
             >
               Edit
             </Link>
-            <button onClick={deleteItem} className="buttonBassic">
+            <button onClick={() => handleOpen()} className="buttonBassic">
               Delete
             </button>
           </article>
         </ProductT>
       ) : (
-        <button onClick={buttonLogic}>
+        <Link href={`/products/item/${item?.item?._id}`}>
           <ProductT>
             <div className="w-full text-center">
               <h1 className="mb-2">{item?.item?.title}</h1>
@@ -92,8 +110,28 @@ export default function Product(item: any) {
               <ImageProduct src={images[0]} alt="image" />
             </ImageWrapper>
           </ProductT>
-        </button>
+        </Link>
       )}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <article className="flex flex-col items-center justify-center">
+            <span className="text-lg">
+              are you sure you want to delete this item? {item?.item?.title}
+            </span>
+            <article>
+              <Button color="error" onClick={deleteActualItem}>
+                Delete
+              </Button>
+              <Button onClick={() => handleClose}>Cancel</Button>
+            </article>
+          </article>
+        </Box>
+      </Modal>
     </>
   );
 }

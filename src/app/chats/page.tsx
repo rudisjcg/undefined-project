@@ -4,6 +4,8 @@ import { useState } from "react";
 import ChatPage from "@/components/ChatPage";
 import React from "react";
 
+let socket;
+
 export default function Home() {
   const [showChat, setShowChat] = useState(false);
   const [userName, setUserName] = useState("");
@@ -11,7 +13,7 @@ export default function Home() {
   const [roomId, setroomId] = useState("");
 
   var socket: any;
-  socket = io("http://localhost:3001");
+  socket = io("/api/socket");
 
   const handleJoin = () => {
     if (userName !== "" && roomId !== "") {

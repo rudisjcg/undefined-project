@@ -1,5 +1,6 @@
 "use client";
 
+import { CommentForm } from "@/components/CommentForm";
 import Layout from "@/components/Layout";
 import { ItemData } from "@/interfaces";
 import { Checkbox, Input, Rating, TextField } from "@mui/material";
@@ -96,12 +97,13 @@ export default function ItemPage() {
               );
             })}
           </div>
+          <CommentForm />
 
           <form onSubmit={submitComment}>
             <Rating
               name="simple-controlled"
               value={rating}
-              precision={0.5}
+              precision={1}
               onChange={(event, newValue) => {
                 setRating(newValue);
               }}

@@ -19,11 +19,11 @@ const CreateProduct = ({
   description: existingDescription,
   category: existingCategory,
   images: existingImages,
-  ...existingData
+  _id,
 }: EditProductsProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(existingTitle || "");
   const [price, setPrice] = useState(existingPrice || "");
   const [description, setDescription] = useState(existingDescription || "");
   const [category, setCategory] = useState(existingCategory || "");
@@ -31,16 +31,14 @@ const CreateProduct = ({
   const inputFileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const pathname = usePathname();
-  const id = pathname?.split("/").pop();
-  console.log(id);
 
   useEffect(() => {
-    if (id && existingData) {
-      setTitle(existingTitle);
-      setPrice(existingPrice);
-      setDescription(existingDescription);
-      setCategory(existingCategory);
-      setImages(existingImages);
+    if (_id) {
+      setTitle(existingTitle || "");
+      setPrice(existingPrice || "");
+      setDescription(existingDescription || "");
+      setCategory(existingCategory || "");
+      setImages(existingImages || []);
     }
   }, [
     existingTitle,
@@ -63,8 +61,8 @@ const CreateProduct = ({
 
     console.log(data);
 
-    if (id && existingData) {
-      const response = await axios.put(`/api/items/update`, { ...data, id });
+    if (_id) {
+      const response = await axios.put(`/api/items/update`, { ...data, _id });
       if (response.data.status === "ok") {
         setLoading(false);
         router.push("/products");
@@ -193,7 +191,7 @@ const CreateProduct = ({
             </div>
           </div>
           <Button variant="contained" type="submit">
-            {id && existingData ? "Update" : "Create"}
+            {_id ? "Update" : "Create"}
           </Button>
         </form>
       </div>

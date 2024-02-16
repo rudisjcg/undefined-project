@@ -44,36 +44,24 @@ const ImageWrapper = styled.div`
 
 export default function Product(item: any) {
   const images = item?.item?.images;
+  const _id = item?.item?._id;
   const pathname = usePathname();
   const router = useRouter();
-  const buttonLogic = () => {
-    if (pathname === "/products") {
-      router.push(`/products/item/${item?.item?._id}`);
-    } else {
-      openModal();
-    }
-  };
   const { showNotification } = useContext(NotificationContext);
   const [open, setOpen] = useState(false);
   const [idTobeDeleted, setIdTobeDeleted] = useState("");
-  const [titleTobeDeleted, setTitleTobeDeleted] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  console.log(_id);
 
   function openModal() {
     console.log("open modal");
   }
 
-  function deleteItem(id: string, name: string) {
-    console.log(id, name);
-    setIdTobeDeleted(id);
-    setTitleTobeDeleted(name);
-    handleOpen();
-  }
-
   async function deleteActualItem() {
     console.log("deleting item");
-    await axios.delete(`/api/items/delete/?id=${idTobeDeleted}`).then((res) => {
+    await axios.delete(`/api/items/delete/?id=${_id}`).then((res) => {
       console.log(res);
       handleClose();
 
@@ -116,16 +104,13 @@ export default function Product(item: any) {
             >
               Edit
             </Link>
-            <button
-              onClick={() => deleteItem(item?.item?._id, item?.item?.title)}
-              className="buttonBassic"
-            >
+            <button onClick={() => handleOpen()} className="buttonBassic">
               Delete
             </button>
           </article>
         </ProductT>
       ) : (
-        <button onClick={buttonLogic}>
+        <Link href={`/products/item/${item?.item?._id}`}>
           <ProductT>
             <div className="w-full text-center">
               <h1 className="mb-2">{item?.item?.title}</h1>
@@ -134,7 +119,7 @@ export default function Product(item: any) {
               <ImageProduct src={images[0]} alt="image" />
             </ImageWrapper>
           </ProductT>
-        </button>
+        </Link>
       )}
       <Modal
         open={open}
@@ -151,7 +136,7 @@ export default function Product(item: any) {
               <Button color="error" onClick={deleteActualItem}>
                 Delete
               </Button>
-              <Button>Cancel</Button>
+              <Button onClick={() => handleClose}>Cancel</Button>
             </article>
           </article>
         </Box>

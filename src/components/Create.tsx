@@ -1,6 +1,6 @@
 import react, { useEffect } from "react";
 import axios from "axios";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
 import TextField from "@mui/material/TextField";
@@ -30,7 +30,6 @@ const CreateProduct = ({
   const [images, setImages] = useState<string[]>(existingImages || []);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const pathname = usePathname();
 
   useEffect(() => {
     if (_id) {
@@ -59,8 +58,6 @@ const CreateProduct = ({
       images,
     };
 
-    console.log(data);
-
     if (_id) {
       const response = await axios.put(`/api/items/update`, { ...data, _id });
       if (response.data.status === "ok") {
@@ -78,7 +75,6 @@ const CreateProduct = ({
           "Content-Type": "application/json",
         },
       });
-      console.log(response);
       if (response.ok) {
         setLoading(false);
         router.push("/products");

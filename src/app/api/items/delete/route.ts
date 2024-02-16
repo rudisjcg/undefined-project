@@ -4,9 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest, res: NextResponse) {
     const requestBody = req.nextUrl.searchParams;
-    console.log(requestBody)
     const id = requestBody.get('id');
-    console.log(id)
     try {
         await mongooseConnect();
         const response = await Item.deleteOne({ _id: id });

@@ -15,11 +15,15 @@ const ProductT = styled.div`
   align-items: center;
   background-color: #fff;
   border-radius: 10px;
+  border: 1px solid #e5e5e5;
   width: 250px;
   max-height: 250px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease-in-out;
   overflow: hidden;
+  &:hover {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 0 2px black);
+  }
 `;
 
 const ImageProduct = styled.img`
@@ -29,10 +33,6 @@ const ImageProduct = styled.img`
   border-end-start-radius: 10px;
   border-end-end-radius: 10px;
   overflow: hidden;
-  &:hover {
-    transform: scale(1.1);
-    transition: all 0.2s ease;
-  }
 `;
 
 const ImageWrapper = styled.div`
@@ -49,20 +49,11 @@ export default function Product(item: any) {
   const router = useRouter();
   const { showNotification } = useContext(NotificationContext);
   const [open, setOpen] = useState(false);
-  const [idTobeDeleted, setIdTobeDeleted] = useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log(_id);
-
-  function openModal() {
-    console.log("open modal");
-  }
-
   async function deleteActualItem() {
-    console.log("deleting item");
     await axios.delete(`/api/items/delete/?id=${_id}`).then((res) => {
-      console.log(res);
       handleClose();
 
       if (res.data.status === "ok") {

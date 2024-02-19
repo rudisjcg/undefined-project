@@ -1,63 +1,63 @@
-'use client'
+"use client";
 
-import { Form } from '@/components/Form'
-import { useAuthFetch } from '@/hooks/useAuthFetch'
-import { useLoading } from '@/hooks/useLoading'
-import { AxiosRequestConfig } from 'axios'
-import { useSearchParams } from 'next/navigation'
+import { Form } from "@/components/Form";
+import { useAuthFetch } from "@/hooks/useAuthFetch";
+import { useLoading } from "@/hooks/useLoading";
+import { AxiosRequestConfig } from "axios";
+import { useSearchParams } from "next/navigation";
 
-export default function LoginPage () {
-  const { finishLoading, isLoading, startLoading } = useLoading()
-  const searchParams = useSearchParams()
-  const authFetch = useAuthFetch()
+export default function LoginPage() {
+  const { finishLoading, isLoading, startLoading } = useLoading();
+  const searchParams = useSearchParams();
+  const authFetch = useAuthFetch();
 
   const changePassword = async (formData: any) => {
-    startLoading()
+    startLoading();
 
-    const token = searchParams.get('token')
+    const token = searchParams.get("token");
 
     const options: AxiosRequestConfig<any> = {
       headers: {
-        token
-      }
-    }
+        token,
+      },
+    };
 
     await authFetch({
-      endpoint: 'change-password',
-      redirectRoute: '/',
+      endpoint: "change-password",
+      redirectRoute: "/",
       formData,
-      options
-    })
+      options,
+    });
 
-    finishLoading()
-  }
+    finishLoading();
+  };
 
   return (
     <>
       <Form
-        title='Cambiat tu contraseña'
-        description='Formulario para cambiar tu contraseña'
+        title="Cambiat tu contraseña"
+        description="Formulario para cambiar tu contraseña"
         onSubmit={changePassword}
       >
-        <div className='my-[10px] flex flex-col gap-4'>
+        <div className="my-[10px] flex flex-col gap-4">
           <Form.Input
-            placeholder='Ingresa tu nueva contraseña...'
-            label='Contraseña'
-            name='newPassword'
-            type='password'
+            placeholder="Ingresa tu nueva contraseña..."
+            label="Contraseña"
+            name="newPassword"
+            type="password"
           />
           <Form.Input
-            placeholder='Repite tu contraseña...'
-            label='Confirmar contraseña'
-            name='confirmPassword'
-            type='password'
+            placeholder="Repite tu contraseña..."
+            label="Confirmar contraseña"
+            name="confirmPassword"
+            type="password"
           />
         </div>
         <Form.SubmitButton
-          buttonText='Cambiar Contraseña'
+          buttonText="Cambiar Contraseña"
           isLoading={isLoading}
         />
       </Form>
     </>
-  )
+  );
 }

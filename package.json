@@ -59,6 +59,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/lodash": "^4.14.202",
     "@types/mime-types": "^2.1.4",

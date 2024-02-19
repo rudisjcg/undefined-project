@@ -26,30 +26,31 @@ export async function GET(request: NextRequest, response: NextResponse) {
     const token = jwt.sign({ data: tokenData }, `${process.env.JWT_SECRET}`, {
         expiresIn: "2h",
     });
-    const forgetURL = `http://localhost:3000/verify-account?token=${token}`;
-    
+
+    const verifyUrl = `http://localhost:3000/verify-account?token=${token}`;
+
 
     const msg: Message = {
         to: "rudisjcg@gmail.com", // Change to your recipient
         from: "xxforzexx@hotmail.com",
         templateId: emailTemplates.forgetPassword,
         dynamic_template_data: {
-            link: forgetURL,
-            tittle: `Hi, ${data?.user?.name} -` + " it seens you forget your password!",
+            link: verifyUrl,
+            tittle: `Hi, ${data?.user?.name} -` + " it seens you want to verify your account!",
         },
     }
 
-          sgMail
-            .send(msg)
-            .then(() => {
-              console.log('Email sent')
-              return NextResponse.json({ message: "Email sent", status: true });
-            })
-            .catch((error) => {
-              console.error(error)
-              return NextResponse.json({ message: "Email not sent", status: false });
-            })
+    sgMail
+        .send(msg)
+        .then(() => {
+            console.log('Email sent')
+            return NextResponse.json({ message: "Email sent", status: true });
+        })
+        .catch((error) => {
+            console.error(error)
+            return NextResponse.json({ message: "Email not sent", status: false });
+        })
 
-    
-    
+
+
 }

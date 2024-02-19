@@ -49,3 +49,8 @@ export const modalStyle = {
   boxShadow: 24,
   p: 4,
 };
+
+export const emailTemplates ={
+  forgetPassword: process.env.FORGET_PASSWORD_EMAIL_TEMPLATE || "",
+}
+

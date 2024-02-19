@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     "src/app/api/auth/[...nextauth]",
     "src/lib/mongoose.js",
-    "src/app/api/uploadimg/route.ts"
+    "src/app/api/uploadimg/route.ts",
+    "src/app/api/socket/route.js"
   ],
   "exclude": ["node_modules"]
 }

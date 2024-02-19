@@ -1,8 +1,7 @@
 "use client";
 
-import Layout from "@/components/Layout";
 import { ItemData } from "@/interfaces";
-import { Checkbox, Input, Rating, TextField } from "@mui/material";
+import { Rating, TextField } from "@mui/material";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -101,7 +100,7 @@ export default function ItemPage() {
             <Rating
               name="simple-controlled"
               value={rating}
-              precision={0.5}
+              precision={1}
               onChange={(event, newValue) => {
                 setRating(newValue);
               }}

@@ -59,3 +59,28 @@ export interface EditProductsProps {
 export type ItemsArray = Item[];
 
 export type ItemsProductArray = ItemsProduct[];
+
+
+export interface ResponseData {
+    name?: string | null;
+    email?: string | null;
+    role?: string | null;
+    id?: string | null;
+    avatar?: string | null;
+    phoneNumber?: string | null;
+    verified?: boolean | null;
+    postCreated?: number | null;
+    comments?: number | null;
+  }
+
+  interface DynamicTemplateData {
+    link: string;
+    tittle: string;
+  }
+  
+  export interface Message {
+    to: string;
+    from: string;
+    templateId: string;
+    dynamic_template_data: DynamicTemplateData;
+  }

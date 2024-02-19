@@ -47,7 +47,7 @@ export function useAuthFetch() {
         console.log(response);
       } else if (endpoint === "verify-account/step") {
         const response = await axios.get(
-          `/api/auth/verify-account/step?verifyAccountToken=${token}`
+          `/api/auth/verify-account/step?token=${token}`
         );
         console.log(response);
       }

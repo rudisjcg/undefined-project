@@ -2,21 +2,26 @@
 import AccountDetails from "./AccountPage";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuthFetch } from "@/hooks/useAuthFetch";
 import VerifyAccount from "./steps/VerifyAccount";
+import axios from "axios";
+import NotificationContext from "@/context/NotificationContext";
 
 export default function AccountPage() {
   const session = useSession();
   const router = useRouter();
-  const params = useSearchParams();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
   const data = params.get("token");
   const verifyAccountToken = params.get("verifyAccountToken");
   const [token, setToken] = useState(data || undefined);
+  const [verifyToken, setVerifyToken] = useState(
+    verifyAccountToken || undefined
+  );
   const authFetch = useAuthFetch();
-
+  const { showNotification } = useContext(NotificationContext);
   useEffect(() => {
-    console.log("useEffect working");
     if (session?.data?.user && session?.data?.user?.email && token) {
       const verifyAccount = async () => {
         await authFetch({
@@ -29,21 +34,27 @@ export default function AccountPage() {
     } else if (
       session?.data?.user &&
       session?.data?.user?.email &&
-      verifyAccountToken
+      verifyToken
     ) {
       const verifyAccount2nd = async () => {
         console.log("2nd verify step");
-        await authFetch({
-          endpoint: "verify-account/step",
-          redirectRoute: "/account",
-          token: verifyAccountToken,
-        });
-        verifyAccount2nd();
-      };
-    }
-  }, [token, verifyAccountToken]);
 
-  console.log(token, verifyAccountToken);
+        const res = await axios.post("/api/auth/verify-token", {
+          token: verifyToken,
+        });
+        console.log(res);
+        if (res?.data?.status) {
+          params.delete("verifyAccountToken");
+          showNotification({
+            msj: res?.data?.message,
+            open: true,
+            status: "success",
+          });
+        }
+      };
+      verifyAccount2nd();
+    }
+  }, [token || verifyToken]);
 
   if (!session?.data?.user) {
     router.push("/");

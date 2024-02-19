@@ -27,7 +27,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
         expiresIn: "2h",
     });
 
-    const verifyUrl = `http://localhost:3000/verify-account?token=${token}`;
+    const verifyUrl = `http://localhost:3000/account?verifyAccountToken=${token}`;
 
 
     const msg: Message = {
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
         },
     }
 
-    sgMail
+    const emailLogic = await sgMail
         .send(msg)
         .then(() => {
             console.log('Email sent')
@@ -50,7 +50,11 @@ export async function GET(request: NextRequest, response: NextResponse) {
             console.error(error)
             return NextResponse.json({ message: "Email not sent", status: false });
         })
+    if (emailLogic.ok) {
+        return NextResponse.json({ message: "Email sent", status: true });
+    } else {
 
-
+        return NextResponse.json({ message: "Email not sent", status: false });
+    }
 
 }

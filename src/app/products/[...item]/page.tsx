@@ -1,9 +1,7 @@
 "use client";
 
-import { CommentForm } from "@/components/CommentForm";
-import Layout from "@/components/Layout";
 import { ItemData } from "@/interfaces";
-import { Checkbox, Input, Rating, TextField } from "@mui/material";
+import { Rating, TextField } from "@mui/material";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -97,7 +95,6 @@ export default function ItemPage() {
               );
             })}
           </div>
-          <CommentForm />
 
           <form onSubmit={submitComment}>
             <Rating

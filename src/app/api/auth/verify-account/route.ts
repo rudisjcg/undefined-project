@@ -18,7 +18,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
     if (!userFind) {
         return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
-
     const tokenData = {
         email: userFind?.email,
         id: userFind?._id,
@@ -27,8 +26,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
     const token = jwt.sign({ data: tokenData }, `${process.env.JWT_SECRET}`, {
         expiresIn: "2h",
     });
-    console.log(token)
-    const forgetURL = `http://localhost:3000/change-password?token=${token}`;
+    const forgetURL = `http://localhost:3000/verify-account?token=${token}`;
     
 
     const msg: Message = {

@@ -39,23 +39,16 @@ export async function GET(request: NextRequest, response: NextResponse) {
         },
     }
 
-    return new Promise((resolve, reject) => {
-        try {
           sgMail
             .send(msg)
             .then(() => {
               console.log('Email sent')
-              resolve({ message: "Email sent", status: true });
+              return NextResponse.json({ message: "Email sent", status: true });
             })
             .catch((error) => {
               console.error(error)
-              reject({ message: "Email not sent", status: false });
+              return NextResponse.json({ message: "Email not sent", status: false });
             })
-        } catch (error) {
-          reject(error);
-        }
-      }
-      )
 
     
     

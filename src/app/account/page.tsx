@@ -1,10 +1,8 @@
 "use client";
-import axios from "axios";
 import AccountDetails from "./AccountPage";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { verify } from "crypto";
 import { useAuthFetch } from "@/hooks/useAuthFetch";
 import VerifyAccount from "./steps/VerifyAccount";
 
@@ -18,6 +16,7 @@ export default function AccountPage() {
   const authFetch = useAuthFetch();
 
   useEffect(() => {
+    console.log("useEffect working");
     if (session?.data?.user && session?.data?.user?.email && token) {
       const verifyAccount = async () => {
         await authFetch({
@@ -27,19 +26,19 @@ export default function AccountPage() {
         });
       };
       verifyAccount();
-    }
-    if (
+    } else if (
       session?.data?.user &&
       session?.data?.user?.email &&
       verifyAccountToken
     ) {
-      const verifyAccount = async () => {
+      const verifyAccount2nd = async () => {
+        console.log("2nd verify step");
         await authFetch({
-          endpoint: "verify-account",
+          endpoint: "verify-account/step",
           redirectRoute: "/account",
           token: verifyAccountToken,
         });
-        verifyAccount();
+        verifyAccount2nd();
       };
     }
   }, [token, verifyAccountToken]);

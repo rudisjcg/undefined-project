@@ -45,6 +45,11 @@ export function useAuthFetch() {
           `/api/auth/verify-account?token=${token}`
         );
         console.log(response);
+      } else if (endpoint === "verify-account/step") {
+        const response = await axios.get(
+          `/api/auth/verify-account/step?verifyAccountToken=${token}`
+        );
+        console.log(response);
       }
 
       const { data } = await axios.post(

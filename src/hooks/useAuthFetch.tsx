@@ -7,8 +7,9 @@ import { useContext } from "react";
 interface AuthFetchProps {
   endpoint: string;
   redirectRoute?: string;
-  formData: any;
+  formData?: any;
   options?: AxiosRequestConfig<any>;
+  token?: string;
 }
 
 export function useAuthFetch() {
@@ -20,6 +21,7 @@ export function useAuthFetch() {
     formData,
     redirectRoute,
     options,
+    token,
   }: AuthFetchProps) => {
     try {
       console.log(formData);
@@ -38,6 +40,16 @@ export function useAuthFetch() {
 
         if (redirectRoute) router.push(redirectRoute);
         return;
+      } else if (endpoint === "verify-account") {
+        const response = await axios.get(
+          `/api/auth/verify-account?token=${token}`
+        );
+        console.log(response);
+      } else if (endpoint === "verify-account/step") {
+        const response = await axios.get(
+          `/api/auth/verify-account/step?token=${token}`
+        );
+        console.log(response);
       }
 
       const { data } = await axios.post(

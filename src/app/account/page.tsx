@@ -1,11 +1,60 @@
 "use client";
 import AccountDetails from "./AccountPage";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import { useAuthFetch } from "@/hooks/useAuthFetch";
+import VerifyAccount from "./steps/VerifyAccount";
+import axios from "axios";
+import NotificationContext from "@/context/NotificationContext";
 
 export default function AccountPage() {
   const session = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  const data = params.get("token");
+  const verifyAccountToken = params.get("verifyAccountToken");
+  const [token, setToken] = useState(data || undefined);
+  const [verifyToken, setVerifyToken] = useState(
+    verifyAccountToken || undefined
+  );
+  const authFetch = useAuthFetch();
+  const { showNotification } = useContext(NotificationContext);
+  useEffect(() => {
+    if (session?.data?.user && session?.data?.user?.email && token) {
+      const verifyAccount = async () => {
+        await authFetch({
+          endpoint: "verify-account",
+          redirectRoute: "/account",
+          token: token,
+        });
+      };
+      verifyAccount();
+    } else if (
+      session?.data?.user &&
+      session?.data?.user?.email &&
+      verifyToken
+    ) {
+      const verifyAccount2nd = async () => {
+        console.log("2nd verify step");
+
+        const res = await axios.post("/api/auth/verify-token", {
+          token: verifyToken,
+        });
+        console.log(res);
+        if (res?.data?.status) {
+          params.delete("verifyAccountToken");
+          showNotification({
+            msj: res?.data?.message,
+            open: true,
+            status: "success",
+          });
+        }
+      };
+      verifyAccount2nd();
+    }
+  }, [token || verifyToken]);
 
   if (!session?.data?.user) {
     router.push("/");
@@ -14,7 +63,15 @@ export default function AccountPage() {
 
   return (
     <>
-      <AccountDetails />
+      {session?.data?.user && session?.data?.user?.email && token ? (
+        <VerifyAccount />
+      ) : session?.data?.user &&
+        session?.data?.user?.email &&
+        verifyAccountToken ? (
+        <VerifyAccount />
+      ) : (
+        <AccountDetails />
+      )}
     </>
   );
 }

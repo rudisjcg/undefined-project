@@ -7,6 +7,7 @@ import { useAuthFetch } from "@/hooks/useAuthFetch";
 import VerifyAccount from "./steps/VerifyAccount";
 import axios from "axios";
 import NotificationContext from "@/context/NotificationContext";
+import ChangePassword from "./steps/ChangePassword";
 
 export default function AccountPage() {
   const session = useSession();
@@ -19,23 +20,11 @@ export default function AccountPage() {
   const [verifyToken, setVerifyToken] = useState(
     verifyAccountToken || undefined
   );
+  const [accountStep, setAccountStep] = useState("account-info" || "");
   const authFetch = useAuthFetch();
   const { showNotification } = useContext(NotificationContext);
   useEffect(() => {
-    if (session?.data?.user && session?.data?.user?.email && token) {
-      const verifyAccount = async () => {
-        await authFetch({
-          endpoint: "verify-account",
-          redirectRoute: "/account",
-          token: token,
-        });
-      };
-      verifyAccount();
-    } else if (
-      session?.data?.user &&
-      session?.data?.user?.email &&
-      verifyToken
-    ) {
+    if (session?.data?.user && session?.data?.user?.email && verifyToken) {
       const verifyAccount2nd = async () => {
         console.log("2nd verify step");
 
@@ -54,7 +43,7 @@ export default function AccountPage() {
       };
       verifyAccount2nd();
     }
-  }, [token || verifyToken]);
+  }, [verifyToken]);
 
   if (!session?.data?.user) {
     router.push("/");
@@ -64,7 +53,7 @@ export default function AccountPage() {
   return (
     <>
       {session?.data?.user && session?.data?.user?.email && token ? (
-        <VerifyAccount />
+        <ChangePassword />
       ) : session?.data?.user &&
         session?.data?.user?.email &&
         verifyAccountToken ? (

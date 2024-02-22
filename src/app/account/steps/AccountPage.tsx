@@ -2,6 +2,7 @@
 import Input from "@/components/Input";
 import Skeletons from "@/components/Skeletons";
 import BasicButton from "@/components/UI/ButtonBasic";
+import { CheckMark } from "@/components/UI/CheckMark";
 import { useLoading } from "@/hooks/useLoading";
 import { ResponseData } from "@/interfaces";
 import { Button } from "@mui/material";
@@ -62,14 +63,23 @@ const AccountDetails = () => {
   return (
     <article className="w-full">
       <article className="flex justify-center items-center gap-4 ">
-        <span className="font-bold text-2xl">Account Details </span>
-
-        {userData?.verified ? (
-          <span className="text-green-500">Verified</span>
+        {isLoading ? (
+          <Skeletons type={"account-header"} />
         ) : (
           <>
-            <span className="text-red-500">Your account is not verified</span>
-            <BasicButton onClick={VerifiedAccount}>verify</BasicButton>
+            <span className="font-bold text-2xl">Account Details </span>
+            {userData?.verified ? (
+              <span className="text-green-500">
+                <CheckMark size="25px" color="green" />
+              </span>
+            ) : (
+              <>
+                <span className="text-red-500">
+                  Your account is not verified
+                </span>
+                <BasicButton onClick={VerifiedAccount}>verify</BasicButton>
+              </>
+            )}
           </>
         )}
       </article>

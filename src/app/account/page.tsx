@@ -1,5 +1,4 @@
 "use client";
-import AccountDetails from "./AccountPage";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import VerifyAccount from "./steps/VerifyAccount";
 import axios from "axios";
 import NotificationContext from "@/context/NotificationContext";
 import ChangePassword from "./steps/ChangePassword";
+import AccountDetails from "./steps/AccountPage";
 
 export default function AccountPage() {
   const session = useSession();
@@ -24,6 +24,10 @@ export default function AccountPage() {
   const authFetch = useAuthFetch();
   const { showNotification } = useContext(NotificationContext);
   useEffect(() => {
+    if (!session?.data?.user) {
+      router.push("/");
+      return;
+    }
     if (session?.data?.user && session?.data?.user?.email && verifyToken) {
       const verifyAccount2nd = async () => {
         console.log("2nd verify step");

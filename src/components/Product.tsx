@@ -86,7 +86,9 @@ export default function Product(item: any) {
             <span className="mb-2">{item?.item?.title}</span>
           </div>
           <ImageWrapper>
-            <ImageProduct src={images[0]} alt="image" />
+            <Link href={`/products/item/${item?.item?._id}`} className="w-full">
+              <ImageProduct src={images[0]} alt="image" />
+            </Link>
           </ImageWrapper>
           <article className="w-full flex justify-around items-center mt-4">
             <Link
@@ -127,7 +129,7 @@ export default function Product(item: any) {
               <Button color="error" onClick={deleteActualItem}>
                 Delete
               </Button>
-              <Button onClick={() => handleClose}>Cancel</Button>
+              <Button onClick={handleClose}>Cancel</Button>
             </article>
           </article>
         </Box>

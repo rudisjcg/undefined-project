@@ -33,6 +33,7 @@
     "clsx": "^2.1.0",
     "dotenv": "^16.3.1",
     "fs-extra": "^11.2.0",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "lucide-react": "^0.319.0",
@@ -61,6 +62,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/bcryptjs": "^2.4.6",
+    "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.14.202",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^20",

@@ -37,6 +37,15 @@ export default function Skeletons({ type }: { type: string }) {
           </div>
         </div>
       )}
+      {type === "account-header" && (
+        <div className="w-[250px]">
+          <div className="max-w-40 rounded overflow-hidden shadow-lg animate-pulse">
+            <div className="px-6 pt-4 pb-2 ">
+              <div className="h-4 bg-gray-300 w-[100px] mb-2"></div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

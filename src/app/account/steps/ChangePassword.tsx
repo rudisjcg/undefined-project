@@ -6,7 +6,7 @@ import { useLoading } from "@/hooks/useLoading";
 import { AxiosRequestConfig } from "axios";
 import { useSearchParams } from "next/navigation";
 
-export default function ChangePassword() {
+export default function LoginPage() {
   const { finishLoading, isLoading, startLoading } = useLoading();
   const searchParams = useSearchParams();
   const authFetch = useAuthFetch();

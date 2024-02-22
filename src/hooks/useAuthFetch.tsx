@@ -45,11 +45,17 @@ export function useAuthFetch() {
           `/api/auth/verify-account?token=${token}`
         );
         console.log(response);
+        return response;
       } else if (endpoint === "verify-account/step") {
         const response = await axios.get(
           `/api/auth/verify-account/step?token=${token}`
         );
         console.log(response);
+      } else if (endpoint === "forget-password") {
+        const response = await axios.get(
+          `/api/auth/forget-password?token=${token}`
+        );
+        return response;
       }
 
       const { data } = await axios.post(
@@ -65,6 +71,8 @@ export function useAuthFetch() {
       });
 
       if (redirectRoute) router.push(redirectRoute);
+
+      return data;
     } catch (error: any) {
       showNotification({
         msj: error.response.data.message as string,

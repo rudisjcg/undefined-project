@@ -71,16 +71,16 @@ export interface ResponseData {
     verified?: boolean | null;
     postCreated?: number | null;
     comments?: number | null;
-  }
+}
 
-  interface DynamicTemplateData {
+interface DynamicTemplateData {
     link: string;
     tittle: string;
-  }
-  
-  export interface Message {
+}
+
+export interface Message {
     to: string;
     from: string;
     templateId: string;
     dynamic_template_data: DynamicTemplateData;
-  }
+}

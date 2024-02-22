@@ -24,7 +24,7 @@ export default async function RootLayout({
     <html lang="en">
       <SessionAccProvider session={session}>
         <NotificationProvider>
-          <body className={inter.className}>
+          <body className={`${inter.className} overflow-hidden`}>
             <Layout>{children}</Layout>
           </body>
         </NotificationProvider>

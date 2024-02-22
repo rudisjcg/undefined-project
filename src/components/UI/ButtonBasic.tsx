@@ -4,6 +4,7 @@ interface ButtonProps {
   children: React.ReactNode;
   onClick: (e: any) => void;
   color?: string;
+  disabled?: boolean;
 }
 
 const ButtonStyleBasic = styled.button`
@@ -20,26 +21,26 @@ const ButtonStyleBasic = styled.button`
   border-radius: 4px;
   cursor: pointer;
   transition: all 300ms ease;
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
 
   &:hover {
-    filter: drop-shadow(0 0 0.1rem #c2c2c2)
+    filter: drop-shadow(0 0 0.1rem #c2c2c2);
   }
 
-  
-
+  &:disabled {
+    background-color: #c2c2c2;
+    cursor: not-allowed;
+  }
 `;
 
 export default function BasicButton({
   children,
   onClick,
   color,
+  disabled,
 }: ButtonProps) {
   return (
-    <ButtonStyleBasic
-    onClick={onClick}
-    color={color}
-    >
+    <ButtonStyleBasic onClick={onClick} color={color} disabled={disabled}>
       {children}
     </ButtonStyleBasic>
   );

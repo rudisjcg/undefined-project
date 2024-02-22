@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const params = usePathname();
   return (
     <>
-      <div className="flex">
+      <div className="flex overflow-x-hidden overflow-y-hidden">
         {params === "/login" || params === "/register" ? null : <Nav />}
         <main
           className={`${

@@ -11,8 +11,6 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY || "");
 export async function GET(request: NextRequest, response: NextResponse) {
     const data = await getServerSession(authOptions);
 
-    console.log(data)
-
     const userFind = await User.findOne({ email: data?.user?.email });
 
     if (!userFind) {
@@ -29,32 +27,31 @@ export async function GET(request: NextRequest, response: NextResponse) {
 
     const verifyUrl = `http://localhost:3000/account?verifyAccountToken=${token}`;
 
+    if (data && data?.user?.email && verifyUrl && userFind && token) {
+        const msg: Message = {
+            to: data?.user?.email, // Change to your recipient
+            from: "xxforzexx@hotmail.com",
+            templateId: emailTemplates.forgetPassword,
+            dynamic_template_data: {
+                link: verifyUrl,
+                tittle: `Hi, ${data?.user?.name} -` + " it seens you want to verify your account!",
+            },
+        }
 
-    const msg: Message = {
-        to: "rudisjcg@gmail.com", // Change to your recipient
-        from: "xxforzexx@hotmail.com",
-        templateId: emailTemplates.forgetPassword,
-        dynamic_template_data: {
-            link: verifyUrl,
-            tittle: `Hi, ${data?.user?.name} -` + " it seens you want to verify your account!",
-        },
-    }
-
-    const emailLogic = await sgMail
-        .send(msg)
-        .then(() => {
-            console.log('Email sent')
+        const emailLogic = await sgMail
+            .send(msg)
+            .then(() => {
+                return NextResponse.json({ message: "Email sent", status: true });
+            })
+            .catch((error) => {
+                return NextResponse.json({ message: "Email not sent", status: false });
+            })
+        if (emailLogic.ok) {
             return NextResponse.json({ message: "Email sent", status: true });
-        })
-        .catch((error) => {
-            console.error(error)
-            return NextResponse.json({ message: "Email not sent", status: false });
-        })
-    if (emailLogic.ok) {
-        return NextResponse.json({ message: "Email sent", status: true });
-    } else {
+        } else {
 
-        return NextResponse.json({ message: "Email not sent", status: false });
+            return NextResponse.json({ message: "Email not sent", status: false });
+        }
     }
 
 }

@@ -1,23 +1,26 @@
 .notification {
-  position: fixed;
-  bottom: 0;
+  position: absolute;
+  top: 0;
   right: 0;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
   z-index: 5;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   animation: start 0.5s forwards;
 
-  height: 50px;
+  width: 200px;
+  height: 100px;
   width: fit-content;
   padding: 0.6rem 1rem;
   transition: 0.3s;
 
   border: 0.5px solid #878787;
-  border-radius: 10px 0 0 10px;
-  border-right: none;
+  border-radius: 10px;
   outline: 0.5px solid transparent;
+  background-color: white;
 
   &.success {
     outline: 1.5px solid greenyellow;

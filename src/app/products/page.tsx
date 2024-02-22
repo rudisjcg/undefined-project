@@ -15,7 +15,7 @@ export default function ProductsPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (session.data === null) {
+    if (!session?.data?.user) {
       router.push("/");
       return;
     }

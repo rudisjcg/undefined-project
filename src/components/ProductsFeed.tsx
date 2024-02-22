@@ -18,10 +18,12 @@ export default function ProductsFeed({ name }: { name: string }) {
   useEffect(() => {
     if (phrase.length > 5) {
       debouncedSearch(phrase);
-    } else {
-      getProducts();
     }
   }, [phrase]);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   async function getProducts() {
     startLoading();
@@ -31,7 +33,6 @@ export default function ProductsFeed({ name }: { name: string }) {
   }
 
   function handleKeyDown(e: any) {
-    console.log(e.target.value);
     if (e.key === "Enter" && phrase.length > 0) {
       debouncedSearch(e.target.value);
     }
@@ -56,7 +57,6 @@ export default function ProductsFeed({ name }: { name: string }) {
       .then((res) => {
         setProducts(res.data);
         finishLoading();
-        console.log("Termino loading handleSearch");
       });
   }
 

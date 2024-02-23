@@ -1,12 +1,5 @@
 import styled from "styled-components";
 
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick: (e: any) => void;
-  color?: string;
-  disabled?: boolean;
-}
-
 const ButtonStyleBasic = styled.button`
   background-color: #4caf50;
   border: none;
@@ -32,6 +25,13 @@ const ButtonStyleBasic = styled.button`
     cursor: not-allowed;
   }
 `;
+
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick: (e: any) => void;
+  color?: string;
+  disabled?: boolean;
+}
 
 export default function BasicButton({
   children,

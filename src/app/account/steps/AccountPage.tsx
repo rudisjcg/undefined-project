@@ -129,7 +129,15 @@ const AccountDetails = () => {
               </div>
               <div>
                 <label>Verified: </label>
-                <Input type="text" value={userData?.verified} disabled />
+                <Input
+                  type="text"
+                  value={`${
+                    userData?.verified
+                      ? "Your account is verified"
+                      : "Your account is not verified"
+                  }`}
+                  disabled
+                />
               </div>
               <div className="grid grid-flow-row">
                 <label>Password</label>
